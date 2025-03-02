@@ -71,18 +71,6 @@ function isolateComponents(block){
             components.push(obj);
            
         }
-    }else{
-        // console.log(block);
-        const obj = {
-            componentType: getCompontType(block),
-            component: block,
-            section: getSection(block),
-            classNumber: getClassNumber(block),
-            classes: getClasses(block)
-        }
-
-        components.push(obj);
-        getCompontType(block)[0];
     }
 
     return components;
