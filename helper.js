@@ -37,6 +37,12 @@ function getClasses(block){
 }
 // ----
 
+function parseClassName(title){
+    const [code, name] = title.split("-")
+
+    return {code: code.trim(), name: name.trim()};
+}
+
 
 // ---- to extract info from each class 
 //      like extract info from lecture or lab

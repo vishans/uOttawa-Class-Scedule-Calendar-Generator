@@ -7,7 +7,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     });
 
     const text = response[0].result.join("") + "#"; // add a # at the end make it easier to grab the last block
-    // console.log(response[0].result.join("")); // Correct way to access the result
 
     const regex = /Class Nbr[\s\S]*?(?=Class Nbr|#)/gm;
     const blocks = text.match(regex);
@@ -19,7 +18,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     let index = 0;
 
     for(block of blocks){
-        console.log(titles[index++], '---------');
+        console.log(parseClassName(titles[index++]), '---------');
         // console.log(block)
         // console.log(isolateComponents(block).length)
         const components = isolateComponents(block);
