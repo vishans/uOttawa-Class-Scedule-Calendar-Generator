@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development', 
+  mode: 'production', // or 'development' if you're debugging
   entry: {
     popup: './popup.js'
   },
@@ -9,5 +9,6 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  devtool: false
+  devtool: false, // Disable eval-based source maps to satisfy CSP
+  target: 'web'
 };

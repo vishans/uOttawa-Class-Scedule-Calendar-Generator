@@ -1,4 +1,4 @@
-function getCompontType(block){
+export function getCompontType(block){
     // Returns a string like 'Lecture', 'Tutorial', etc..
     const regex = /\d{4}\s*[A-Z]\d{2}\s*([A-Z]\w*)/gm;
     const match = regex.exec(block);
@@ -7,7 +7,7 @@ function getCompontType(block){
 
 }
 
-function getSection(block){
+export function getSection(block){
     // Returns a string like A00 or like B01 etc .. 
     const regex = /\d{4}\s*([A-Z]\d{2})\s*[A-Z]\w*/gm;
     const match = regex.exec(block);
@@ -16,7 +16,7 @@ function getSection(block){
 
 }
 
-function getClassNumber(block){
+export function getClassNumber(block){
     // Returns a string like 2042 
     const regex = /(\d{4})\s*[A-Z]\d{2}\s*[A-Z]\w*/gm;
     const match = regex.exec(block);
@@ -27,7 +27,7 @@ function getClassNumber(block){
 
 // ---- whole classes from block
 //      lectures, tutorials, lab etc..
-function getClasses(block){
+export function getClasses(block){
     // Returns a list of class blocks 
     // Each block contains info like Date and Time, Room. Instructor, Start and End date
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
@@ -37,7 +37,7 @@ function getClasses(block){
 }
 // ----
 
-function parseClassName(title){
+export function parseClassName(title){
     const [code, name] = title.split("-")
 
     return {code: code.trim(), name: name.trim()};
@@ -53,7 +53,7 @@ const dayMap = {
   Su: 0
 };
 
-function applyTimeToDate(date, timeString) {
+export function applyTimeToDate(date, timeString) {
   const match = timeString.match(/(\d+):(\d+)(AM|PM)/);
 
   let hours = parseInt(match[1], 10);
@@ -72,7 +72,7 @@ function applyTimeToDate(date, timeString) {
   return date;
 }
 
-function getActualStartDate(startDate, dayNTime){
+export function getActualStartDate(startDate, dayNTime){
   const startDayNo = startDate.getDay();
   const currentDayNo = dayMap[dayNTime.day]
 
@@ -85,7 +85,7 @@ function getActualStartDate(startDate, dayNTime){
   return result;
 }
 
-function getActualEndDate(startDate, dayNTime){
+export function getActualEndDate(startDate, dayNTime){
   // console.log(dayNTime)
   const startDayNo = startDate.getDay();
   const currentDayNo = dayMap[dayNTime.day]
@@ -103,7 +103,7 @@ function getActualEndDate(startDate, dayNTime){
 
 // The getClassX functions are meant to be used on class blocks
 // to extract specific info
-function getClassDT(cls){
+export function getClassDT(cls){
     
     const regex = /([A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
 
@@ -112,7 +112,7 @@ function getClassDT(cls){
     return match[1];
 }
 
-function parseScheduleLine(schedule) {
+export function parseScheduleLine(schedule) {
   //capture the day, start time, and end time
   // example schedule We 8:30AM - 9:50AM
   const regex = /^(\w{2})\s+(\d{1,2}:\d{2}[AP]M)\s*-\s*(\d{1,2}:\d{2}[AP]M)$/;
@@ -124,7 +124,7 @@ function parseScheduleLine(schedule) {
   return { day, startTime, endTime };
 }
 
-function parseDateRange(rangeStr) {
+export function parseDateRange(rangeStr) {
   // capture two dates separated by a hyphen.
   // Assumes dates are in MM/DD/YYYY format.
   const regex = /^\s*(\d{2}\/\d{2}\/\d{4})\s*-\s*(\d{2}\/\d{2}\/\d{4})\s*$/;
@@ -151,14 +151,14 @@ function parseDateRange(rangeStr) {
   };
 }
 
-function getClassLocation(cls){
+export function getClassLocation(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 
     return match[1];
 }
 
-function parseLocation(str) {
+export function parseLocation(str) {
   const regex = /^(.*?)\s*\((.*?)\)\s*(.*)$/;
   const match = str.match(regex);
   if (!match) return null;
@@ -172,14 +172,14 @@ function parseLocation(str) {
   };
 }
 
-function getClassInstructor(cls){
+export function getClassInstructor(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 
     return match[1];
 }
 
-function getClassStartEnd(cls){
+export function getClassStartEnd(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 

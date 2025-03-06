@@ -1,4 +1,21 @@
 import ical from 'ical-generator';
+import {
+    getCompontType,
+    getSection,
+    getClassNumber,
+    getClasses,
+    parseClassName,
+    applyTimeToDate,
+    getActualStartDate,
+    getActualEndDate,
+    getClassDT,
+    parseScheduleLine,
+    parseDateRange,
+    getClassLocation,
+    parseLocation,
+    getClassInstructor,
+    getClassStartEnd
+  } from './helper.js';
 
 document.getElementById("scrape-btn").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -19,20 +36,28 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // console.log(blocks);
     let index = 0;
 
-    for(block of blocks){
+    for(let block of blocks){
         console.log(parseClassName(titles[index++]), '---------');
         // console.log(block)
         // console.log(isolateComponents(block).length)
         const components = isolateComponents(block);
         if(components){
-            for(c of components){
-               for(c_ of c.classes){
+            for(let c of components){
+               for(let c_ of c.classes){
                 console.log(c_)
                }
             }
         }
     }
     // console.log(titles);
+    const cal = ical({ domain: 'example.com', name: 'Test Calendar' });
+cal.createEvent({
+    start: new Date(),
+    end: new Date(new Date().getTime() + 3600000),
+    summary: 'Test Event',
+    description: 'Testing ical-generator.'
+});
+console.log(cal.toString());
 });
 
 function isolateComponents(block){
@@ -44,13 +69,13 @@ function isolateComponents(block){
 
     if(match){
 
-        for(component of match){
+        for(let component of match){
             
             const classes = getClasses(component);
             const classesList = [];
             
             // console.log(classes);
-            for(cls of classes){
+            for(let cls of classes){
                 const obj = {
                     dayNTime: parseScheduleLine(getClassDT(cls)),
                     location: parseLocation(getClassLocation(cls)),
