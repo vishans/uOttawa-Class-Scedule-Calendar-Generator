@@ -43,6 +43,60 @@ function parseClassName(title){
     return {code: code.trim(), name: name.trim()};
 }
 
+const dayMap = {
+  Mo: 1,
+  Tu: 2,
+  We: 3,
+  Th: 4,
+  Fr: 5,
+  Sa: 6,
+  Su: 0
+};
+
+function applyTimeToDate(date, timeString) {
+  const match = timeString.match(/(\d+):(\d+)(AM|PM)/);
+
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3];
+
+  // convert 12-hour format to 24-hour format
+  if (period === "PM" && hours !== 12) {
+      hours += 12;
+  } else if (period === "AM" && hours === 12) {
+      hours = 0; // 12 AM is 00:00 in 24-hour time
+  }
+
+  date.setHours(hours, minutes, 0, 0);
+
+  return date;
+}
+
+function getActualStartDate(startDate, dayNTime){
+  const startDayNo = startDate.getDay();
+  const currentDayNo = dayMap[dayNTime.day]
+
+  const deltaNo = Math.abs(currentDayNo - startDayNo);
+  
+  startDate.setDate(startDate.getDate() + deltaNo);
+
+  const result =  applyTimeToDate(startDate, dayNTime.startTime)
+
+  return result;
+}
+
+function getActualEndDate(startDate, dayNTime){
+  // console.log(dayNTime)
+  const startDayNo = startDate.getDay();
+  const currentDayNo = dayMap[dayNTime.day]
+
+  const deltaNo = currentDayNo - startDayNo;
+  
+  startDate.setDate(startDate.getDate() + deltaNo);
+
+  return applyTimeToDate(startDate, dayNTime.endTime)
+}
+
 
 // ---- to extract info from each class 
 //      like extract info from lecture or lab

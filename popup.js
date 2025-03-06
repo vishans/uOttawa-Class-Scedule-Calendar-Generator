@@ -43,20 +43,23 @@ function isolateComponents(block){
     if(match){
 
         for(component of match){
-            //console.log(component);
-
+            
             const classes = getClasses(component);
             const classesList = [];
-
+            
+            // console.log(classes);
             for(cls of classes){
                 const obj = {
-                    dateNTime: parseScheduleLine(getClassDT(cls)),
+                    dayNTime: parseScheduleLine(getClassDT(cls)),
                     location: parseLocation(getClassLocation(cls)),
                     instructor: getClassInstructor(cls),
                     startEndDate: parseDateRange(getClassStartEnd(cls))
 
                 }
 
+                // console.log(obj.startEndDate)
+                obj['actualStartDate'] = getActualStartDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
+                obj['actualEndDate'] = getActualEndDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
                 classesList.push(obj);
             }
             
@@ -68,9 +71,9 @@ function isolateComponents(block){
                 classes: classesList 
             }
             components.push(obj);
-            console.log(obj.classes[0].dateNTime);
-            console.log(obj.classes[0].startEndDate);
-            console.log(obj.classes[0].location);
+            // console.log(obj.classes[0].dateNTime);
+            // console.log(obj.classes[0].startEndDate);
+            // console.log(obj.classes[0].location);
            
         }
     }
