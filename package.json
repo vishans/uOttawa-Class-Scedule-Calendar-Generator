@@ -1,0 +1,28 @@
+{
+  "name": "uocal",
+  "version": "1.0.0",
+  "main": "content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishans/uOttawa-Class-Scedule-Calendar-Generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vishans/uOttawa-Class-Scedule-Calendar-Generator/issues"
+  },
+  "homepage": "https://github.com/vishans/uOttawa-Class-Scedule-Calendar-Generator#readme",
+  "description": "",
+  "dependencies": {
+    "ical-generator": "^8.1.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  }
+}

@@ -1,3 +1,5 @@
+import ical from 'ical-generator';
+
 document.getElementById("scrape-btn").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
