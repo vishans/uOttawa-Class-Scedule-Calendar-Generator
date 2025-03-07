@@ -49,15 +49,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
             }
         }
     }
-    // console.log(titles);
-    const cal = ical({ domain: 'example.com', name: 'Test Calendar' });
-cal.createEvent({
-    start: new Date(),
-    end: new Date(new Date().getTime() + 3600000),
-    summary: 'Test Event',
-    description: 'Testing ical-generator.'
-});
-console.log(cal.toString());
 });
 
 function isolateComponents(block){
