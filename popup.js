@@ -33,22 +33,52 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const title_regex = /[A-Z]{3}.*-.*/gm;
     const titles = text.match(title_regex);
 
-    // console.log(blocks);
     let index = 0;
 
+    const cal = ical({ domain: 'uoCal', name: 'Test Calendar' });
+
     for(let block of blocks){
-        console.log(parseClassName(titles[index++]), '---------');
-        // console.log(block)
-        // console.log(isolateComponents(block).length)
+        const title = parseClassName(titles[index++]);
+        console.log(title, '---------');
+
         const components = isolateComponents(block);
         if(components){
             for(let c of components){
                for(let c_ of c.classes){
                 console.log(c_)
+                cal.createEvent({
+                    start: c_.actualStartDate,
+                    end: c_.actualEndDate,
+                    summary: title.code,      
+                    description:`Taught by ${c_.instructor}` , 
+                    location: c_.location.building, 
+                    repeating: {
+                      freq: 'WEEKLY',         
+                      interval: 1,            
+                      until: c_.startEndDate.end
+                    }
+                  });
+
                }
             }
         }
     }
+    console.log(cal.toString());
+
+    // Create a Blob from the ICS content
+    const blob = new Blob([cal.toString()], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create an anchor element and trigger a download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'calendar.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up the object URL
+    URL.revokeObjectURL(url);
 });
 
 function isolateComponents(block){
