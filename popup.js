@@ -14,8 +14,9 @@ import {
     getClassLocation,
     parseLocation,
     getClassInstructor,
-    getClassStartEnd
-  } from './helper.js';
+    getClassStartEnd,
+    toFloatingTimeString
+} from './helper.js';
 
 document.getElementById("scrape-btn").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -25,17 +26,43 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
         func: scrapeDataFromPage
     });
 
-    const text = response[0].result.join("") + "#"; // add a # at the end make it easier to grab the last block
+    console.log(response[0].result.meta)
+    console.log(response[0].result.data)
+    const text = response[0].result.data.join("") + "#"; // add a # at the end make it easier to grab the last block
 
-    const regex = /Class Nbr[\s\S]*?(?=Class Nbr|#)/gm;
+    let regex = /Class Nbr[\s\S]*?(?=Class Nbr|#)/gm;
+    //TODO: French support    
+
     const blocks = text.match(regex);
+
+    // console.log(`The value of blocks is ${blocks}`);
 
     const title_regex = /[A-Z]{3}.*-.*/gm;
     const titles = text.match(title_regex);
 
     let index = 0;
 
-    const cal = ical({ domain: 'uoCal', name: 'Test Calendar' });
+    const includeCourseName = document.getElementById('include-course').checked;
+    const includeSectionNo = document.getElementById('include-section').checked;
+    const includeComponent = document.getElementById('include-component').checked;
+
+    const cal = ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false });
+
+    // TODO: 
+    // Option to add full address of classroom or not
+    // Option to show full building name, Montpetit instead of MNT for e.g
+    // Option to include toute la paprasse dans la description
+    // paprasse includes:
+    // class number (id)
+    // prof name (handle to be determined case)
+    // full address here
+    
+    // Make download link reflect the one in the textbox
+
+    // include French support
+    // include flexible custom mode with $var replacable variable
+
+    const times = [];
 
     for(let block of blocks){
         const title = parseClassName(titles[index++]);
@@ -45,13 +72,29 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
         if(components){
             for(let c of components){
                for(let c_ of c.classes){
+                let summary = title.code;
+
+                if(includeCourseName)
+                    summary += ' - ' + title.name;
+
+                if(includeSectionNo)
+                    summary += ' - ' + c.section;
+
+                if(includeComponent)
+                    summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
+
                 console.log(c_)
+
+                times.push(c_.actualStartDate)
+                times.push(c_.actualEndDate)
+                times.push(c_.startEndDate.end)
+
                 cal.createEvent({
                     start: c_.actualStartDate,
                     end: c_.actualEndDate,
-                    summary: title.code,      
+                    summary: summary,       
                     description:`Taught by ${c_.instructor}` , 
-                    location: c_.location.building, 
+                    location: c_.location.building + ' ' + c_.location.room, 
                     repeating: {
                       freq: 'WEEKLY',         
                       interval: 1,            
@@ -63,15 +106,45 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
             }
         }
     }
-    console.log(cal.toString());
 
-    // Create a Blob from the ICS content
-    const blob = new Blob([cal.toString()], { type: 'text/calendar' });
+    const calString = cal.toString();
+    let calStringLines = calString.split('\n');
+    console.log(calString);
+
+    let timesIndex = 0;
+    for (let index = 0; index < calStringLines.length; index++){
+
+        const dtStartRegex = /(DTSTART:)(.*)/ ;
+        const dtEndRegex= /(DTEND:)(.*)/ ;
+        const untilRegex = /(UNTIL=)(\d{8}T\d{6}Z?)/;
+        
+
+        let currentLine = calStringLines[index]
+        if(dtStartRegex.test(currentLine)){
+            calStringLines[index] = currentLine.replace(dtStartRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+            timesIndex++;
+        }
+        else if(dtEndRegex.test(currentLine)){
+            calStringLines[index] = currentLine.replace(dtEndRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+            timesIndex++;
+        }
+        else if(untilRegex.test(currentLine)){
+            calStringLines[index] = currentLine.replace(untilRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+            timesIndex++;
+        }
+
+    }
+    
+    console.log(calStringLines);
+
+    // const blob = new Blob([cal.toString()], { type: 'text/calendar' });
+    const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
     
     // Create an anchor element and trigger a download
     const link = document.createElement('a');
     link.href = url;
+    // TODO: Make downlaod link reflect the textbox in popup
     link.download = 'calendar.ics';
     document.body.appendChild(link);
     link.click();
@@ -96,6 +169,7 @@ function isolateComponents(block){
             const classesList = [];
             
             // console.log(classes);
+            console.log('heree')
             for(let cls of classes){
                 const obj = {
                     dayNTime: parseScheduleLine(getClassDT(cls)),
@@ -132,6 +206,7 @@ function isolateComponents(block){
 
 function scrapeDataFromPage() {
     const data = [];
+    let meta;
     const iframe = document.getElementById("ptifrmtgtframe"); // Select the iframe
 
     if (iframe) {
@@ -142,6 +217,11 @@ function scrapeDataFromPage() {
                 data.push(el.innerText.trim());
             });
 
+            const metaElements = iframeDoc.querySelectorAll("span.PABOLDTEXT");
+            meta = Array.from(metaElements).map(el => el.textContent);
+            
+            
+
             console.log("Scraped data from iframe:", data);
         } else {
             console.log("Iframe document is not accessible.");
@@ -150,5 +230,5 @@ function scrapeDataFromPage() {
         console.log("Iframe not found.");
     }
 
-    return data;
+    return {meta,data};
 }

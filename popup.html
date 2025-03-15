@@ -1,16 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scraper</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <button id="scrape-btn">Scrape Data</button>
-  <a id="download-link" style="display: none;">Download Data</a>
+  <div class="container">
+    <h1>Data Scraper Options</h1>
+    <div class="options">
+      <label>
+        <input checked type="checkbox" id="include-component" name="include-component" />
+        Include Component 
+      </label>
+      <label>
+        <input type="checkbox" id="include-course" name="include-course" />
+        Include Course Name
+      </label>
+      <label>
+        <input type="checkbox" id="full-address" name="full-address" />
+        Include Full Address of Classroom
+      </label>
+      <label>
+        <input checked type="checkbox" id="include-section" name="include-section" />
+        Include Section Number
+      </label>
+    </div>
+
+    <div class="paprasse-options">
+      <h2>Paprasse Options</h2>
+      <label>
+        <input type="checkbox" id="include-room-number" name="include-room-number" />
+        Include Room Number
+      </label>
+      <label>
+        <input type="checkbox" id="include-prof-name" name="include-prof-name" />
+        Include Prof Name
+      </label>
+    </div>
+
+    <div class="file-name">
+      <label for="file-name">File Name:</label>
+      <input type="text" id="file-name" name="file-name" value="default_filename.txt" />
+    </div>
+
+    <button id="scrape-btn">Download iCalendar</button>
+    <a id="download-link" style="display: none;">Download Data</a>
+  </div>
   <script type="module" src="dist/popup.bundle.js"></script>
-  <!-- <script src="helper.js"></script>
-  <script src="popup.js"></script> -->
 </body>
 </html>

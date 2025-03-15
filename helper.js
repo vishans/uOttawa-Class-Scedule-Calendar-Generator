@@ -188,3 +188,14 @@ export function getClassStartEnd(cls){
 
 // ---- 
 
+
+export function toFloatingTimeString(date) {
+    const pad = (num) => num.toString().padStart(2, '0');
+    return date.getFullYear().toString() +
+           pad(date.getMonth() + 1) +
+           pad(date.getDate()) + 'T' +
+           pad(date.getHours()) +
+           pad(date.getMinutes()) +
+           pad(date.getSeconds());
+
+}
