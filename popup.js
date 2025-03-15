@@ -57,7 +57,12 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // prof name (handle to be determined case)
     // full address here
     
-    // Make download link reflect the one in the textbox
+    // Make download link reflect the one in the textbox (Will have to extract term and year)
+                                                         // See result returned by promise in scripting by
+                                                         // scrapeDataFromPage
+
+    // Make extension only work on uozone
+    // Make it work only when display option is in list view
 
     // include French support
     // include flexible custom mode with $var replacable variable
