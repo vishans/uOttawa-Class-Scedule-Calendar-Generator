@@ -18,6 +18,32 @@ import {
     toFloatingTimeString
 } from './helper.js';
 
+var filename = 'calendar.ics'
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    let response = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: getSemeseterInfo 
+    });
+
+    if(response[0].result === undefined) return;
+
+    const infos = response[0].result[1].split('|').slice(0,2);
+
+    let downloadLink = infos[0].trim().split(' ').join('-');
+
+    console.log(downloadLink);
+    
+    filename = downloadLink + '.ics';
+
+    const textbox = document.getElementById('file-name');
+    textbox.value = filename;
+
+});
+
 document.getElementById("scrape-btn").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -26,6 +52,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
         func: scrapeDataFromPage
     });
 
+    const semester = response[0].result.meta[1];
     console.log(response[0].result.meta)
     console.log(response[0].result.data)
     const text = response[0].result.data.join("") + "#"; // add a # at the end make it easier to grab the last block
@@ -57,10 +84,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // prof name (handle to be determined case)
     // full address here
     
-    // Make download link reflect the one in the textbox (Will have to extract term and year)
-                                                         // See result returned by promise in scripting by
-                                                         // scrapeDataFromPage
-
     // Make extension only work on uozone
     // Make it work only when display option is in list view
 
@@ -145,12 +168,14 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // const blob = new Blob([cal.toString()], { type: 'text/calendar' });
     const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
-    
+
     // Create an anchor element and trigger a download
     const link = document.createElement('a');
     link.href = url;
-    // TODO: Make downlaod link reflect the textbox in popup
-    link.download = 'calendar.ics';
+    
+    const textbox = document.getElementById('file-name');
+    link.download = textbox.value;
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -236,4 +261,31 @@ function scrapeDataFromPage() {
     }
 
     return {meta,data};
+}
+
+function getSemeseterInfo() {
+   
+    let meta;
+    const iframe = document.getElementById("ptifrmtgtframe"); // Select the iframe
+
+    if (iframe) {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+        if (iframeDoc) {
+
+            const metaElements = iframeDoc.querySelectorAll("span.PABOLDTEXT");
+            meta = Array.from(metaElements).map(el => el.textContent);
+            
+            
+
+            console.log("Scraped data from iframe:", meta);
+        } else {
+            console.log("Iframe document is not accessible.");
+        }
+    } else {
+        console.log("Iframe not found.");
+    }
+
+   
+    return meta;
 }
