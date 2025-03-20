@@ -20,6 +20,26 @@ import {
 
 var filename = 'calendar.ics'
 
+document.addEventListener("DOMContentLoaded", async () => {
+    // get the current active tab's URL
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  
+    if (tab && tab.url) {
+      let currentUrl = tab.url;
+      console.log("current URL:", currentUrl);
+  
+      // check if a substring is in the URL
+      if (currentUrl.includes("uocampus.uottawa.ca")) {
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
+      } else {
+        console.log("The URL does not contain uottawa's url.");
+      }
+    } else {
+      console.log("Unable to retrieve the current tab's URL.");
+    }
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

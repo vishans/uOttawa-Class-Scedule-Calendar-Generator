@@ -3,7 +3,7 @@
     "name": "DOM Scraper",
     "version": "1.0",
     "description": "Scrapes data from a webpage and allows the user to download it.",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "scripting", "tabs"],
     "host_permissions": ["*://*/*"],
     "action": {
       "default_popup": "popup.html",
