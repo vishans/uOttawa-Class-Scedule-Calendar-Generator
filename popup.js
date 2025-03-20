@@ -78,11 +78,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // TODO: 
     // Option to add full address of classroom or not
     // Option to show full building name, Montpetit instead of MNT for e.g
-    // Option to include toute la paprasse dans la description
-    // paprasse includes:
-    // class number (id)
-    // prof name (handle to be determined case)
-    // full address here
     
     // Make extension only work on uozone
     // Make it work only when display option is in list view
