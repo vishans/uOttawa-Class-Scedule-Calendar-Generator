@@ -245,7 +245,7 @@ VERSION:2.0\r
 `),this.data.events.forEach(e=>t+=e.toString()),t+=D(this.data),t+="END:VCALENDAR",v(t)}};function H(a){return new T(a)}var It=H;
 //# sourceMappingURL=index.js.map
 ;// ./helper.js
-function getCompontType(block){
+function helper_getCompontType(block){
     // Returns a string like 'Lecture', 'Tutorial', etc..
     const regex = /\d{4}\s*[A-Z]\d{2}\s*([A-Z]\w*)/gm;
     const match = regex.exec(block);
@@ -254,7 +254,7 @@ function getCompontType(block){
 
 }
 
-function getSection(block){
+function helper_getSection(block){
     // Returns a string like A00 or like B01 etc .. 
     const regex = /\d{4}\s*([A-Z]\d{2})\s*[A-Z]\w*/gm;
     const match = regex.exec(block);
@@ -263,7 +263,7 @@ function getSection(block){
 
 }
 
-function getClassNumber(block){
+function helper_getClassNumber(block){
     // Returns a string like 2042 
     const regex = /(\d{4})\s*[A-Z]\d{2}\s*[A-Z]\w*/gm;
     const match = regex.exec(block);
@@ -274,7 +274,7 @@ function getClassNumber(block){
 
 // ---- whole classes from block
 //      lectures, tutorials, lab etc..
-function getClasses(block){
+function helper_getClasses(block){
     // Returns a list of class blocks 
     // Each block contains info like Date and Time, Room. Instructor, Start and End date
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
@@ -319,7 +319,7 @@ function applyTimeToDate(date, timeString) {
   return date;
 }
 
-function getActualStartDate(startDate, dayNTime){
+function helper_getActualStartDate(startDate, dayNTime){
   const startDayNo = startDate.getDay();
   const currentDayNo = dayMap[dayNTime.day]
 
@@ -332,7 +332,7 @@ function getActualStartDate(startDate, dayNTime){
   return result;
 }
 
-function getActualEndDate(startDate, dayNTime){
+function helper_getActualEndDate(startDate, dayNTime){
   // console.log(dayNTime)
   const startDayNo = startDate.getDay();
   const currentDayNo = dayMap[dayNTime.day]
@@ -350,7 +350,7 @@ function getActualEndDate(startDate, dayNTime){
 
 // The getClassX functions are meant to be used on class blocks
 // to extract specific info
-function getClassDT(cls){
+function helper_getClassDT(cls){
     console.log(cls) 
     const regex = /([A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
 
@@ -360,7 +360,7 @@ function getClassDT(cls){
     return match[1];
 }
 
-function parseScheduleLine(schedule) {
+function helper_parseScheduleLine(schedule) {
   //capture the day, start time, and end time
   // example schedule We 8:30AM - 9:50AM
   const regex = /^(\w{2})\s+(\d{1,2}:\d{2}[AP]M)\s*-\s*(\d{1,2}:\d{2}[AP]M)$/;
@@ -375,7 +375,7 @@ function parseScheduleLine(schedule) {
   return { day, startTime, endTime };
 }
 
-function parseDateRange(rangeStr) {
+function helper_parseDateRange(rangeStr) {
   // capture two dates separated by a hyphen.
   // Assumes dates are in MM/DD/YYYY format.
   const regex = /^\s*(\d{2}\/\d{2}\/\d{4})\s*-\s*(\d{2}\/\d{2}\/\d{4})\s*$/;
@@ -402,14 +402,14 @@ function parseDateRange(rangeStr) {
   };
 }
 
-function getClassLocation(cls){
+function helper_getClassLocation(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 
     return match[1];
 }
 
-function parseLocation(str) {
+function helper_parseLocation(str) {
   const regex = /^(.*?)\s*\((.*?)\)\s*(.*)$/;
   const match = str.match(regex);
   if (!match){
@@ -429,14 +429,14 @@ function parseLocation(str) {
   };
 }
 
-function getClassInstructor(cls){
+function helper_getClassInstructor(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 
     return match[1];
 }
 
-function getClassStartEnd(cls){
+function helper_getClassStartEnd(cls){
     const regex = /(?:[A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
     const match = regex.exec(cls);
 
@@ -551,46 +551,49 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const times = [];
 
     for(let block of blocks){
-        const title = parseClassName(titles[index++]);
-        console.log(title, '---------');
+    //     const title = parseClassName(titles[index++]);
+    //     console.log(title, '---------');
 
-        const components = isolateComponents(block);
-        if(components){
-            for(let c of components){
-               for(let c_ of c.classes){
-                let summary = title.code;
+    //     const components = isolateComponents(block);
+    //     if(components){
+    //         for(let c of components){
+    //            for(let c_ of c.classes){
+    //             let summary = title.code;
 
-                if(includeCourseName)
-                    summary += ' - ' + title.name;
+    //             if(includeCourseName)
+    //                 summary += ' - ' + title.name;
 
-                if(includeSectionNo)
-                    summary += ' - ' + c.section;
+    //             if(includeSectionNo)
+    //                 summary += ' - ' + c.section;
 
-                if(includeComponent)
-                    summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
+    //             if(includeComponent)
+    //                 summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
 
-                console.log(c_)
+    //             console.log(c_)
 
-                times.push(c_.actualStartDate)
-                times.push(c_.actualEndDate)
-                times.push(c_.startEndDate.end)
+    //             times.push(c_.actualStartDate)
+    //             times.push(c_.actualEndDate)
+    //             times.push(c_.startEndDate.end)
 
-                cal.createEvent({
-                    start: c_.actualStartDate,
-                    end: c_.actualEndDate,
-                    summary: summary,       
-                    description:`Taught by ${c_.instructor}` , 
-                    location: c_.location.building + ' ' + c_.location.room, 
-                    repeating: {
-                      freq: 'WEEKLY',         
-                      interval: 1,            
-                      until: c_.startEndDate.end
-                    }
-                  });
+    //             cal.createEvent({
+    //                 start: c_.actualStartDate,
+    //                 end: c_.actualEndDate,
+    //                 summary: summary,       
+    //                 description:`Taught by ${c_.instructor}` , 
+    //                 location: c_.location.building + ' ' + c_.location.room, 
+    //                 repeating: {
+    //                   freq: 'WEEKLY',         
+    //                   interval: 1,            
+    //                   until: c_.startEndDate.end
+    //                 }
+    //               });
 
-               }
-            }
-        }
+    //            }
+    //         }
+    //     }
+    console.log('--------')
+    console.log(blocks);
+    console.log('--------')
     }
 
     const calString = cal.toString();
