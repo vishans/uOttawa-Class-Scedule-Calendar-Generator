@@ -10,5 +10,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   devtool: false, // Disable eval-based source maps to satisfy CSP
+  optimization:{
+    minimize: false,
+  },
   target: 'web'
 };

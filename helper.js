@@ -104,11 +104,12 @@ export function getActualEndDate(startDate, dayNTime){
 // The getClassX functions are meant to be used on class blocks
 // to extract specific info
 export function getClassDT(cls){
-    
+    console.log(cls) 
     const regex = /([A-Z]\w.*\-.*)\s*(?:.*)\s*(?:.*)\s*(?:\d{2}\/\d{2}\/\d{4}\s*\-\s*\d{2}\/\d{2}\/\d{4})/gm;
 
     const match = regex.exec(cls);
-
+    console.log('match is')
+    console.log(match)
     return match[1];
 }
 
@@ -118,6 +119,9 @@ export function parseScheduleLine(schedule) {
   const regex = /^(\w{2})\s+(\d{1,2}:\d{2}[AP]M)\s*-\s*(\d{1,2}:\d{2}[AP]M)$/;
   const match = schedule.match(regex);
   if (!match) {
+    // if fails
+    // try french time format
+    // /^(\w{3})\s+(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})$/gm
     return null; 
   }
   const [, day, startTime, endTime] = match;
@@ -161,7 +165,13 @@ export function getClassLocation(cls){
 export function parseLocation(str) {
   const regex = /^(.*?)\s*\((.*?)\)\s*(.*)$/;
   const match = str.match(regex);
-  if (!match) return null;
+  if (!match){
+    return {
+      address: '',
+      building: '',
+      room: str 
+    }
+  } 
   
   const [ , address, building, room ] = match;
   

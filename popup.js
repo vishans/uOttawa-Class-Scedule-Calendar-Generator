@@ -77,8 +77,9 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     console.log(response[0].result.data)
     const text = response[0].result.data.join("") + "#"; // add a # at the end make it easier to grab the last block
 
-    let regex = /Class Nbr[\s\S]*?(?=Class Nbr|#)/gm;
+    let regex = /(Class Nbr|Nº cours)[\s\S]*?(?=Class Nbr|Nº cours|#)/gm;
     //TODO: French support    
+    console.log(text)
 
     const blocks = text.match(regex);
 
@@ -215,6 +216,7 @@ function isolateComponents(block){
             
             // console.log(classes);
             console.log('heree')
+            if (!classes) continue;
             for(let cls of classes){
                 const obj = {
                     dayNTime: parseScheduleLine(getClassDT(cls)),
@@ -225,6 +227,8 @@ function isolateComponents(block){
                 }
 
                 // console.log(obj.startEndDate)
+                console.log('ici')
+                console.log(obj.dayNTime);
                 obj['actualStartDate'] = getActualStartDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
                 obj['actualEndDate'] = getActualEndDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
                 classesList.push(obj);
