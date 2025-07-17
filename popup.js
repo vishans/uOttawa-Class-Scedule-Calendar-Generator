@@ -109,46 +109,49 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const times = [];
 
     for(let block of blocks){
-        const title = parseClassName(titles[index++]);
-        console.log(title, '---------');
+    //     const title = parseClassName(titles[index++]);
+    //     console.log(title, '---------');
 
-        const components = isolateComponents(block);
-        if(components){
-            for(let c of components){
-               for(let c_ of c.classes){
-                let summary = title.code;
+    //     const components = isolateComponents(block);
+    //     if(components){
+    //         for(let c of components){
+    //            for(let c_ of c.classes){
+    //             let summary = title.code;
 
-                if(includeCourseName)
-                    summary += ' - ' + title.name;
+    //             if(includeCourseName)
+    //                 summary += ' - ' + title.name;
 
-                if(includeSectionNo)
-                    summary += ' - ' + c.section;
+    //             if(includeSectionNo)
+    //                 summary += ' - ' + c.section;
 
-                if(includeComponent)
-                    summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
+    //             if(includeComponent)
+    //                 summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
 
-                console.log(c_)
+    //             console.log(c_)
 
-                times.push(c_.actualStartDate)
-                times.push(c_.actualEndDate)
-                times.push(c_.startEndDate.end)
+    //             times.push(c_.actualStartDate)
+    //             times.push(c_.actualEndDate)
+    //             times.push(c_.startEndDate.end)
 
-                cal.createEvent({
-                    start: c_.actualStartDate,
-                    end: c_.actualEndDate,
-                    summary: summary,       
-                    description:`Taught by ${c_.instructor}` , 
-                    location: c_.location.building + ' ' + c_.location.room, 
-                    repeating: {
-                      freq: 'WEEKLY',         
-                      interval: 1,            
-                      until: c_.startEndDate.end
-                    }
-                  });
+    //             cal.createEvent({
+    //                 start: c_.actualStartDate,
+    //                 end: c_.actualEndDate,
+    //                 summary: summary,       
+    //                 description:`Taught by ${c_.instructor}` , 
+    //                 location: c_.location.building + ' ' + c_.location.room, 
+    //                 repeating: {
+    //                   freq: 'WEEKLY',         
+    //                   interval: 1,            
+    //                   until: c_.startEndDate.end
+    //                 }
+    //               });
 
-               }
-            }
-        }
+    //            }
+    //         }
+    //     }
+    console.log('####!!!!')
+    console.log(block);
+    console.log('####!!!!')
     }
 
     const calString = cal.toString();

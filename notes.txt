@@ -1,0 +1,623 @@
+2025-Fall-Term popup.bundle.js:500:13
+Source map error: Error: NetworkError when attempting to fetch resource.
+Resource URL: moz-extension://9f82f19c-488b-4704-b85d-970b4730f25e/dist/popup.bundle.js
+Source Map URL: index.js.map
+
+Array [ "Select Display Option", "2025 Fall Term | Undergraduate | University of Ottawa" ]
+popup.bundle.js:518:13
+Array(7) [ "Class Schedule Filter Options \n\n\n\t\t\n\t\nShow Enrolled Classes\n\n\t\nShow Dropped Classes\n\n\t\nShow Waitlisted Classes", "CSI 2772 - CONCEPTS PROGRAMMATION C++\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n1086\n\t\nA00\n\t\nLecture\n\t\nMo 8:30AM - 9:50AM\n\t\n120 University (FSS) 1007\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025\n\n\n \n\t \t\n \n\t\nTh 10:00AM - 11:20AM\n\t\nDepartment\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025\n\n\n1087\n\t\nA01\n\t\nLaboratory\n\t\nFr 2:30PM - 3:50PM\n\t\n800 King Edward (STE) 0130\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025\n\n\n1088\n\t\nA04\n\t\nTutorial\n\t\nWe 4:00PM - 5:20PM\n\t\n57 Louis Pasteur (FTX) 302\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025", "CSI 4103 - TOPICS IN COMPUTER SCIENCE I\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n6094\n\t\nA00\n\t\nLecture\n\t\nWe 8:30AM - 11:20AM\n\t\n125 University (MNT) 207\n\t\nAndrej Bogdanov\n\t\n09/03/2025 - 12/02/2025", "CSI 4118 - COMPUTER NETWORKS PROTOCOLS\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n1105\n\t\nA00\n\t\nLecture\n\t\nTu 10:00AM - 11:20AM\n\t\n65 University (MRT) 250\n\t\nAmiya Nayak\n\t\n09/03/2025 - 12/02/2025\n\n\n \n\t \t\n \n\t\nTh 8:30AM - 9:50AM\n\t\n100 Louis Pasteur (CRX) C308\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025", "CSI 4139 - DESIGN OF SECURE COMPUTER SYS.\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n5510\n\t\nA03\n\t\nLaboratory\n\t\nTu 2:30PM - 5:20PM\n\t\n800 King Edward (STE) 0131\n\t\nMiguel Garzon\n\t\n09/03/2025 - 12/02/2025\n\n\n3086\n\t\nA04\n\t\nTutorial\n\t\nFr 5:30PM - 6:50PM\n\t\n120 University (FSS) 1007\n\t\nMiguel Garzon\n\t\n09/03/2025 - 12/02/2025\n\n\n1106\n\t\nA00\n\t\nLecture\n\t\nTu 8:30AM - 9:50AM\n\t\n800 King Edward (STE) A0150\n\t\nMiguel Garzon\n\t\n09/03/2025 - 12/02/2025\n\n\n \n\t \t\n \n\t\nFr 10:00AM - 11:20AM\n\t\n800 King Edward (STE) A0150\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025", "FLS 2772 - MIEUX PRON. COMM. EN FRA.\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n2701\n\t\nA00\n\t\nLecture\n\t\nMo 1:00PM - 2:20PM\n\t\n60 University (SMD) 503\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025\n\n\n \n\t \t\n \n\t\nWe 11:30AM - 12:50PM\n\t\n60 University (SMD) 503\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025", "FLS 3500 - SECOND LANGUAGE CERT. TEST\n\n\t\t\n\t\nStatus\tUnits\tGrading\tGrade\tDeadlines\n\nEnrolled\n\t\n3.00\n\t\nD (50%) Passing Grade\n\t\n \n\t\n\n\t\nClass Nbr\tSection\tComponent\tDays & Times\tRoom\tInstructor\tStart/End Date\n\n5444\n\t\nA00\n\t\nTST\n\t\nN/A\n\t\nN/A\n\t\nTo be Announced\n\t\n09/03/2025 - 12/02/2025" ]
+popup.bundle.js:519:13
+Class Schedule Filter Options 
+
+
+		
+	
+Show Enrolled Classes
+
+	
+Show Dropped Classes
+
+	
+Show Waitlisted ClassesCSI 2772 - CONCEPTS PROGRAMMATION C++
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+1086
+	
+A00
+	
+Lecture
+	
+Mo 8:30AM - 9:50AM
+	
+120 University (FSS) 1007
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Th 10:00AM - 11:20AM
+	
+Department
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+1087
+	
+A01
+	
+Laboratory
+	
+Fr 2:30PM - 3:50PM
+	
+800 King Edward (STE) 0130
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+1088
+	
+A04
+	
+Tutorial
+	
+We 4:00PM - 5:20PM
+	
+57 Louis Pasteur (FTX) 302
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025CSI 4103 - TOPICS IN COMPUTER SCIENCE I
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+6094
+	
+A00
+	
+Lecture
+	
+We 8:30AM - 11:20AM
+	
+125 University (MNT) 207
+	
+Andrej Bogdanov
+	
+09/03/2025 - 12/02/2025CSI 4118 - COMPUTER NETWORKS PROTOCOLS
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+1105
+	
+A00
+	
+Lecture
+	
+Tu 10:00AM - 11:20AM
+	
+65 University (MRT) 250
+	
+Amiya Nayak
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Th 8:30AM - 9:50AM
+	
+100 Louis Pasteur (CRX) C308
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025CSI 4139 - DESIGN OF SECURE COMPUTER SYS.
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+5510
+	
+A03
+	
+Laboratory
+	
+Tu 2:30PM - 5:20PM
+	
+800 King Edward (STE) 0131
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+3086
+	
+A04
+	
+Tutorial
+	
+Fr 5:30PM - 6:50PM
+	
+120 University (FSS) 1007
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+1106
+	
+A00
+	
+Lecture
+	
+Tu 8:30AM - 9:50AM
+	
+800 King Edward (STE) A0150
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Fr 10:00AM - 11:20AM
+	
+800 King Edward (STE) A0150
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025FLS 2772 - MIEUX PRON. COMM. EN FRA.
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+2701
+	
+A00
+	
+Lecture
+	
+Mo 1:00PM - 2:20PM
+	
+60 University (SMD) 503
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+We 11:30AM - 12:50PM
+	
+60 University (SMD) 503
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025FLS 3500 - SECOND LANGUAGE CERT. TEST
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+5444
+	
+A00
+	
+TST
+	
+N/A
+	
+N/A
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025# popup.bundle.js:524:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+1086
+	
+A00
+	
+Lecture
+	
+Mo 8:30AM - 9:50AM
+	
+120 University (FSS) 1007
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Th 10:00AM - 11:20AM
+	
+Department
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+1087
+	
+A01
+	
+Laboratory
+	
+Fr 2:30PM - 3:50PM
+	
+800 King Edward (STE) 0130
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+1088
+	
+A04
+	
+Tutorial
+	
+We 4:00PM - 5:20PM
+	
+57 Louis Pasteur (FTX) 302
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025CSI 4103 - TOPICS IN COMPUTER SCIENCE I
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+6094
+	
+A00
+	
+Lecture
+	
+We 8:30AM - 11:20AM
+	
+125 University (MNT) 207
+	
+Andrej Bogdanov
+	
+09/03/2025 - 12/02/2025CSI 4118 - COMPUTER NETWORKS PROTOCOLS
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+1105
+	
+A00
+	
+Lecture
+	
+Tu 10:00AM - 11:20AM
+	
+65 University (MRT) 250
+	
+Amiya Nayak
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Th 8:30AM - 9:50AM
+	
+100 Louis Pasteur (CRX) C308
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025CSI 4139 - DESIGN OF SECURE COMPUTER SYS.
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+5510
+	
+A03
+	
+Laboratory
+	
+Tu 2:30PM - 5:20PM
+	
+800 King Edward (STE) 0131
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+3086
+	
+A04
+	
+Tutorial
+	
+Fr 5:30PM - 6:50PM
+	
+120 University (FSS) 1007
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+1106
+	
+A00
+	
+Lecture
+	
+Tu 8:30AM - 9:50AM
+	
+800 King Edward (STE) A0150
+	
+Miguel Garzon
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+Fr 10:00AM - 11:20AM
+	
+800 King Edward (STE) A0150
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025FLS 2772 - MIEUX PRON. COMM. EN FRA.
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+2701
+	
+A00
+	
+Lecture
+	
+Mo 1:00PM - 2:20PM
+	
+60 University (SMD) 503
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025
+
+
+ 
+	 	
+ 
+	
+We 11:30AM - 12:50PM
+	
+60 University (SMD) 503
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025FLS 3500 - SECOND LANGUAGE CERT. TEST
+
+		
+	
+Status	Units	Grading	Grade	Deadlines
+
+Enrolled
+	
+3.00
+	
+D (50%) Passing Grade
+	
+ 
+	
+
+	
+popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+####!!!! popup.bundle.js:594:13
+Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
+
+5444
+	
+A00
+	
+TST
+	
+N/A
+	
+N/A
+	
+To be Announced
+	
+09/03/2025 - 12/02/2025 popup.bundle.js:595:13
+####!!!! popup.bundle.js:596:13
+BEGIN:VCALENDAR
+
+VERSION:2.0
+
+PRODID:-//sebbo.net//ical-generator//EN
+
+NAME:Test Calendar
+
+X-WR-CALNAME:Test Calendar
+
+END:VCALENDAR popup.bundle.js:601:13
+Array(6) [ "BEGIN:VCALENDAR\r", "VERSION:2.0\r", "PRODID:-//sebbo.net//ical-generator//EN\r", "NAME:Test Calendar\r", "X-WR-CALNAME:Test Calendar\r", "END:VCALENDAR" ]
+popup.bundle.js:627:13
+
+​
+
