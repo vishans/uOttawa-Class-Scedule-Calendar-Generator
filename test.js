@@ -1,3 +1,26 @@
+class Class{
+    constructor(className){
+        this.className = className;
+        this.components = null;
+    }
+
+    getSubjectCode(){
+        return this.className.match(/[A-Z]{3}/)[0];
+    }
+
+    getCourseCode(){
+        return this.className.match(/\d{4}/)[0];
+    }
+
+    getCourseName(){
+        return this.className.split("-").pop().trim();
+    }
+
+    getSetComponents(components){
+        this.components = components;
+    }
+
+}
 class Component{
     constructor(number, section, component, daysNTimes, room, instructor, startEndDate){
         this.number = number;
@@ -6,13 +29,17 @@ class Component{
         this.daysNTimes = daysNTimes;
         this.room = room;
         this.instructor = instructor;
-        this.startEndDate = startEndDate;
+        
+        // only match the date range
+        const matches = startEndDate.match(/\d{2}\/\d{2}\/\d{4}\s*-\s*\d{2}\/\d{2}\/\d{4}/g);
+        this.startEndDate = matches[0];
     }
 }
 
 
 function parseClass(text){
 
+    let components = [];
     // split text in lines
     let lines = text.split(/[\n][\n\r]*/);
 
@@ -23,6 +50,7 @@ function parseClass(text){
     
     let section = '';
     let component = '';
+    let number = '';
 
     let index = 0;
     let current = '';
@@ -36,6 +64,7 @@ function parseClass(text){
         current = lines[index];
 
         if(/^\d{4}$/.test(current)){ // Look for class Number
+            number = current;
             // Next should be the section
             section = lines[++index];
 
@@ -78,15 +107,26 @@ function parseClass(text){
         index++;
 
         if (captured){
-            console.log('====');
-            console.log(section);
-            console.log(component);
-            console.log(daysNTimes);
-            console.log(room);
-            console.log(instructor);
-            console.log(startEndDate);
-            console.log('====');
-            console.log('\n\n');
+            components.push(
+                new Component(
+                    number, 
+                    section,
+                    component,
+                    daysNTimes, 
+                    room,
+                    instructor,
+                    startEndDate
+                )
+            );
+            // console.log('====');
+            // console.log(section);
+            // console.log(component);
+            // console.log(daysNTimes);
+            // console.log(room);
+            // console.log(instructor);
+            // console.log(startEndDate);
+            // console.log('====');
+            // console.log('\n\n');
         }
 
         captured = false;
@@ -100,7 +140,29 @@ function parseClass(text){
     // console.log(instructor);
     // console.log(startEndDate);
     // console.log('\n\n\n');
+    console.log(components);
 
+}
+
+function getAllClassNames(text){
+
+    let lines = text.split(/[\n][\n\r]*/);
+
+    // filter array, i.e get rid of empty strings and whitespaces/tabs
+    lines = lines.filter(str => str.trim() != "");
+
+    console.log(lines);
+    // return new Set(text.match(/[A-Z]{3}\s\d{4}\s-\s.+/gm));
+    const names = [];
+    for(const line of lines){
+        const match = line.match(/[A-Z]{3}\s\d{4}\s-\s.+/gm);
+        if(match){
+            names.push(match[0]);
+
+        }
+    }
+
+    return names;
 }
 
 
@@ -183,4 +245,15 @@ D (50%) Passing Grade
 	
 `;
 
-parseClass(data);
+// parseClass(data);
+const fs = require("fs");
+
+fs.readFile('notes2.txt', 'utf8', (err, data) => {
+    if(err) {
+        console.error(err);
+        return;
+    }
+
+    console.log(getAllClassNames(data));
+
+});

@@ -209,3 +209,171 @@ export function toFloatingTimeString(date) {
            pad(date.getSeconds());
 
 }
+
+// --- overhaul ----
+
+export class Class{
+    constructor(className){
+        this.className = className;
+        this.components = null;
+    }
+
+    getSubjectCode(){
+        return this.className.match(/[A-Z]{3}/)[0];
+    }
+
+    getCourseCode(){
+        return this.className.match(/\d{4}/)[0];
+    }
+
+    getCourseName(){
+        return this.className.split("-").pop().trim();
+    }
+
+    setComponents(components){
+        this.components = components;
+    }
+
+}
+
+export class Component{
+    constructor(number, section, component, daysNTimes, room, instructor, startEndDate){
+        this.number = number;
+        this.section = section;
+        this.component = component;
+        this.daysNTimes = daysNTimes;
+        this.room = room;
+        this.instructor = instructor;
+        
+        // only match the date range
+        const matches = startEndDate.match(/\d{2}\/\d{2}\/\d{4}\s*-\s*\d{2}\/\d{2}\/\d{4}/g);
+        this.startEndDate = matches[0];
+    }
+}
+
+
+export function parseClass(text){
+
+    let components = [];
+    // split text in lines
+    let lines = text.split(/[\n][\n\r]*/);
+
+    // filter array, i.e get rid of empty strings and whitespaces/tabs
+    lines = lines.filter(str => str.trim() != "");
+
+    console.log(lines);
+    
+    let section = '';
+    let component = '';
+    let number = '';
+
+    let index = 0;
+    let current = '';
+    let captured = false;
+    while(index < lines.length){
+        let daysNTimes = ''
+        let room = '';
+        let instructor = '';
+        let startEndDate = '';
+
+        current = lines[index];
+
+        if(/^\d{4}$/.test(current)){ // Look for class Number
+            number = current;
+            // Next should be the section
+            section = lines[++index];
+
+            // And then component
+            component = lines[++index];
+
+            // Then days and times
+            daysNTimes = lines[++index];
+            
+            // Room (but really it's the location)
+            room = lines[++index];
+
+            // Instructor
+            instructor = lines[++index];
+
+            // Start and end date
+            startEndDate = lines[++index]
+
+            captured = true;
+
+        }else if( 
+            /[A-Za-z]{2}\s\d{1,2}:\d{2}[AP]M\s-\s\d{1,2}:\d{2}[AP]M/
+            .test(current)){
+
+            // Then days and times
+            daysNTimes = lines[index];
+            
+            // Room (but really it's the location)
+            room = lines[++index];
+
+            // Instructor
+            instructor = lines[++index];
+
+            // Start and end date
+            startEndDate = lines[++index]
+
+            captured = true;
+        }
+
+        index++;
+
+        if (captured){
+            components.push(
+                new Component(
+                    number, 
+                    section,
+                    component,
+                    daysNTimes, 
+                    room,
+                    instructor,
+                    startEndDate
+                )
+            );
+            // console.log('====');
+            // console.log(section);
+            // console.log(component);
+            // console.log(daysNTimes);
+            // console.log(room);
+            // console.log(instructor);
+            // console.log(startEndDate);
+            // console.log('====');
+            // console.log('\n\n');
+        }
+
+        captured = false;
+        
+    }
+
+    // console.log(section);
+    // console.log(component);
+    // console.log(daysNTimes);
+    // console.log(room);
+    // console.log(instructor);
+    // console.log(startEndDate);
+    // console.log('\n\n\n');
+    return components;
+
+}
+
+export function parseAllClassNames(text){
+
+    let lines = text.split(/[\n][\n\r]*/);
+
+    // filter array, i.e get rid of empty strings and whitespaces/tabs
+    lines = lines.filter(str => str.trim() != "");
+
+    const names = [];
+    for(const line of lines){
+        const match = line.match(/[A-Z]{3}\s\d{4}\s-\s.+/gm);
+        if(match){
+            names.push(match[0]);
+
+        }
+    }
+
+    return names;
+}
