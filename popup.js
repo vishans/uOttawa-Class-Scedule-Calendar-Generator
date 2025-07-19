@@ -15,7 +15,12 @@ import {
     parseLocation,
     getClassInstructor,
     getClassStartEnd,
-    toFloatingTimeString
+    toFloatingTimeString,
+
+    parseClass,
+    parseAllClassNames, 
+
+    Class
 } from './helper.js';
 
 var filename = 'calendar.ics'
@@ -107,7 +112,10 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // include flexible custom mode with $var replacable variable
 
     const times = [];
+    const classes = [];
 
+    const classNames = parseAllClassNames(text);
+    let classIndex = 0;
     for(let block of blocks){
     //     const title = parseClassName(titles[index++]);
     //     console.log(title, '---------');
@@ -150,9 +158,21 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     //         }
     //     }
     console.log('####!!!!')
-    console.log(block);
+    // console.log(block);
+    const components = parseClass(block);
+    const cls = new Class(classNames[classIndex++]);
+    cls.setComponents(components);
+    console.log('class component =')
+    console.table(cls.components);
+
+    console.table(cls);
+    classes.push(cls);
     console.log('####!!!!')
+
     }
+
+    console.table(classes);
+
 
     const calString = cal.toString();
     let calStringLines = calString.split('\n');
