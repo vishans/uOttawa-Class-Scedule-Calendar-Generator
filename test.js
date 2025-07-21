@@ -34,6 +34,71 @@ class Component{
         const matches = startEndDate.match(/\d{2}\/\d{2}\/\d{4}\s*-\s*\d{2}\/\d{2}\/\d{4}/g);
         this.startEndDate = matches[0];
     }
+
+    // the date when the component starts in the semester
+    getStartDate(){
+        return this.startEndDate.match(/\b\d{2}\/\d{2}\/\d{4}\b/g)[0];
+    }
+
+    // the date when the component ends in the semester
+    getEndDate(){
+        return this.startEndDate.match(/\b\d{2}\/\d{2}\/\d{4}\b/g)[1];
+    }
+
+    // get a Date object of when the first day of this component is
+    getStart(){
+        const startDateComponents = this.getStartDate().split("/");
+        const year = Number(startDateComponents[2]);
+        const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+        const day = Number(startDateComponents[1]);
+
+        const startDate = new Date(year, month, day);
+
+        const week = Array.from({length: 7}, (_, i) => i);
+        let i = startDate.getDay();
+
+        let count = 0;
+        const stopDay = this.getDay();
+        console.log(`Index day is ${i}`);
+        console.log(`Stop day is ${stopDay}`);
+        while(true){
+            if(i == stopDay){
+                break
+            }
+
+            count++;
+            i = (i + 1) % 7
+            
+        }
+        console.log(`count is ${count}`);
+        
+
+        console.log(startDate);
+        startDate.setDate(startDate.getDate() + count);
+
+        // TODO: Add time before returning startDate
+        // TODO: Implement a getEnd() method;
+        //       I think it's going to be the same thing as getEnd but just different time
+        return startDate;
+    }
+
+    // get the day of the week when the component happens
+    // like the day of the lecture/lab/tutorial
+    getDay(){
+
+        const weekdayMap = {
+            Su: 0,
+            Mo: 1,
+            Tu: 2,
+            We: 3,
+            Th: 4,
+            Fr: 5,
+            Sa: 6
+        };
+
+        return weekdayMap[this.daysNTimes.slice(0, 2)];
+    }
+
 }
 
 
@@ -141,7 +206,7 @@ function parseClass(text){
     // console.log(startEndDate);
     // console.log('\n\n\n');
     console.log(components);
-
+    return components;
 }
 
 function getAllClassNames(text){
@@ -245,15 +310,22 @@ D (50%) Passing Grade
 	
 `;
 
-// parseClass(data);
-const fs = require("fs");
+let components = parseClass(data);
 
-fs.readFile('notes2.txt', 'utf8', (err, data) => {
-    if(err) {
-        console.error(err);
-        return;
-    }
+c = components[components.length - 1];
+console.log(c);
+console.log(c.getEndDate());
+console.log(c.getStart());
 
-    console.log(getAllClassNames(data));
+// const fs = require("fs");
 
-});
+// fs.readFile('notes2.txt', 'utf8', (err, data) => {
+//     if(err) {
+//         console.error(err);
+//         return;
+//     }
+
+//     console.log(getAllClassNames(data));
+
+// });
+
