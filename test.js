@@ -45,14 +45,24 @@ class Component{
         return this.startEndDate.match(/\b\d{2}\/\d{2}\/\d{4}\b/g)[1];
     }
 
-    // get a Date object of when the first day of this component is
-    getStart(){
-        const startDateComponents = this.getStartDate().split("/");
+    toDateObject(text){
+        const startDateComponents = text.split("/");
         const year = Number(startDateComponents[2]);
         const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
         const day = Number(startDateComponents[1]);
 
-        const startDate = new Date(year, month, day);
+        return new Date(year, month, day);
+    }
+
+    // get a Date object of when the first day of this component is
+    getStart(){
+        // const startDateComponents = this.getStartDate().split("/");
+        // const year = Number(startDateComponents[2]);
+        // const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+        // const day = Number(startDateComponents[1]);
+
+        // const startDate = new Date(year, month, day);
+        const startDate = this.toDateObject(this.getStartDate());
 
         const week = Array.from({length: 7}, (_, i) => i);
         let i = startDate.getDay();
@@ -73,12 +83,80 @@ class Component{
         console.log(`count is ${count}`);
         
 
-        console.log(startDate);
+        // console.log(startDate);
         startDate.setDate(startDate.getDate() + count);
+        
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[0];
+        const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
 
-        // TODO: Add time before returning startDate
+        let [_, hour, minute, period] = match;
+        hour = parseInt(hour, 10);
+        minute = parseInt(minute, 10);
+
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
+
+        startDate.setHours(hour, minute, 0, 0);
+
+        console.log(`hour ${hour}`);
+        console.log(`minute ${minute}`);
         // TODO: Implement a getEnd() method;
         //       I think it's going to be the same thing as getEnd but just different time
+        console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
+        
+        return startDate;
+    }
+
+    // get a Date object of when the component ends (on the first day it started)
+    getEnd(){
+        // const startDateComponents = this.getStartDate().split("/");
+        // const year = Number(startDateComponents[2]);
+        // const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+        // const day = Number(startDateComponents[1]);
+
+        // const startDate = new Date(year, month, day);
+        const startDate = this.toDateObject(this.getEndDate());
+
+        const week = Array.from({length: 7}, (_, i) => i);
+        let i = startDate.getDay();
+
+        let count = 0;
+        const stopDay = this.getDay();
+        console.log(`Index day is ${i}`);
+        console.log(`Stop day is ${stopDay}`);
+        while(true){
+            if(i == stopDay){
+                break
+            }
+
+            count++;
+            i = (i + 1) % 7
+            
+        }
+        console.log(`count is ${count}`);
+        
+
+        // console.log(startDate);
+        startDate.setDate(startDate.getDate() + count);
+        
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[1];
+        const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+
+        let [_, hour, minute, period] = match;
+        hour = parseInt(hour, 10);
+        minute = parseInt(minute, 10);
+
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
+
+        startDate.setHours(hour, minute, 0, 0);
+
+        console.log(`hour ${hour}`);
+        console.log(`minute ${minute}`);
+        // TODO: Implement a getEnd() method;
+        //       I think it's going to be the same thing as getEnd but just different time
+        console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
+        
         return startDate;
     }
 
@@ -314,8 +392,10 @@ let components = parseClass(data);
 
 c = components[components.length - 1];
 console.log(c);
-console.log(c.getEndDate());
+// console.log(c.getEndDate());
 console.log(c.getStart());
+console.log();
+console.log(c.getEnd());
 
 // const fs = require("fs");
 
