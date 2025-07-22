@@ -20,8 +20,18 @@ import {
     parseClass,
     parseAllClassNames, 
 
-    Class
+    Class, 
+    // Component
 } from './helper.js';
+
+function toDateObject(text){
+    const startDateComponents = text.split("/");
+    const year = Number(startDateComponents[2]);
+    const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+    const day = Number(startDateComponents[1]);
+
+    return new Date(year, month, day);
+}
 
 var filename = 'calendar.ics'
 
@@ -173,39 +183,57 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
     console.table(classes);
 
+    // for(let cls of classes){
+    //     for(let component of cls.components){
+    //         cal.createEvent({
+    //             start: component.getStart(),
+    //             end: component.getEnd(),
+    //             summary: "Meow",       
+    //             description: component.instructor, 
+    //             location:  component.room, 
+    //             repeating: {
+    //                 freq: 'WEEKLY',         
+    //                 interval: 1,            
+    //                 until: toDateObject(component.getEndDate())
+    //             }
+    //         });
+    //     }
 
-    const calString = cal.toString();
-    let calStringLines = calString.split('\n');
-    console.log(calString);
+    // }
 
-    let timesIndex = 0;
-    for (let index = 0; index < calStringLines.length; index++){
 
-        const dtStartRegex = /(DTSTART:)(.*)/ ;
-        const dtEndRegex= /(DTEND:)(.*)/ ;
-        const untilRegex = /(UNTIL=)(\d{8}T\d{6}Z?)/;
+    // const calString = cal.toString();
+    // let calStringLines = calString.split('\n');
+    // console.log(calString);
+
+    // let timesIndex = 0;
+    // for (let index = 0; index < calStringLines.length; index++){
+
+    //     const dtStartRegex = /(DTSTART:)(.*)/ ;
+    //     const dtEndRegex= /(DTEND:)(.*)/ ;
+    //     const untilRegex = /(UNTIL=)(\d{8}T\d{6}Z?)/;
         
 
-        let currentLine = calStringLines[index]
-        if(dtStartRegex.test(currentLine)){
-            calStringLines[index] = currentLine.replace(dtStartRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-            timesIndex++;
-        }
-        else if(dtEndRegex.test(currentLine)){
-            calStringLines[index] = currentLine.replace(dtEndRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-            timesIndex++;
-        }
-        else if(untilRegex.test(currentLine)){
-            calStringLines[index] = currentLine.replace(untilRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-            timesIndex++;
-        }
+    //     let currentLine = calStringLines[index]
+    //     if(dtStartRegex.test(currentLine)){
+    //         calStringLines[index] = currentLine.replace(dtStartRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+    //         timesIndex++;
+    //     }
+    //     else if(dtEndRegex.test(currentLine)){
+    //         calStringLines[index] = currentLine.replace(dtEndRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+    //         timesIndex++;
+    //     }
+    //     else if(untilRegex.test(currentLine)){
+    //         calStringLines[index] = currentLine.replace(untilRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
+    //         timesIndex++;
+    //     }
 
-    }
+    // }
     
-    console.log(calStringLines);
-
-    // const blob = new Blob([cal.toString()], { type: 'text/calendar' });
-    const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });
+    // console.log(calStringLines);
+    console.log('here65736753');
+    const blob = new Blob([cal.toString()], { type: 'text/calendar' });
+    // const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
 
     // Create an anchor element and trigger a download
