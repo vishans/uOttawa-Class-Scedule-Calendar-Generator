@@ -282,7 +282,7 @@ export class Component{
           console.log(`Index day is ${i}`);
           console.log(`Stop day is ${stopDay}`);
           while(true){
-              if(i == stopDay){
+              if(i == stopDay || count >=7){
                   break
               }
 
@@ -319,7 +319,7 @@ export class Component{
 
       // get a Date object of when the component ends (on the first day it started)
       getEnd(){
-          const startDate = this.toDateObject(this.getEndDate());
+          const startDate = this.toDateObject(this.getStartDate());
 
           const week = Array.from({length: 7}, (_, i) => i);
           let i = startDate.getDay();
@@ -329,7 +329,7 @@ export class Component{
           console.log(`Index day is ${i}`);
           console.log(`Stop day is ${stopDay}`);
           while(true){
-              if(i == stopDay){
+              if(i == stopDay || count >=7){
                   break
               }
 

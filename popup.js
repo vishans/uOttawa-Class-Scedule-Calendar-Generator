@@ -1,3 +1,4 @@
+console.log("TOP OF POPUP.JS");
 import ical from 'ical-generator';
 import {
     getCompontType,
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.getElementById("scrape-btn").addEventListener("click", async () => {
+    console.log("Inside scrape");
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     let response = await chrome.scripting.executeScript({
@@ -98,7 +100,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
     const blocks = text.match(regex);
 
-    // console.log(`The value of blocks is ${blocks}`);
+    console.log(`The value of blocks is ${blocks}`);
 
     const title_regex = /[A-Z]{3}.*-.*/gm;
     const titles = text.match(title_regex);
@@ -183,23 +185,34 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
     console.table(classes);
 
-    // for(let cls of classes){
-    //     for(let component of cls.components){
-    //         cal.createEvent({
-    //             start: component.getStart(),
-    //             end: component.getEnd(),
-    //             summary: "Meow",       
-    //             description: component.instructor, 
-    //             location:  component.room, 
-    //             repeating: {
-    //                 freq: 'WEEKLY',         
-    //                 interval: 1,            
-    //                 until: toDateObject(component.getEndDate())
-    //             }
-    //         });
-    //     }
+    // a class consists of one or more components
+    // a component could be a lecture, tutorial, lab...
+    for(let cls of classes){
+        
+        for(let component of cls.components){
+            if(component.daysNTimes == "N/A" || component.room == "N/A" ||
+               component.daysNTimes == "S/O" || component.room == "S/O"
+            ){
+                continue;
+            }
 
-    // }
+            cal.createEvent({
+                start: component.getStart(),
+                end: component.getEnd(),
+                summary: cls.className + component.component,       
+                description: component.instructor, 
+                location:  component.room, 
+                repeating: {
+                    freq: 'WEEKLY',         
+                    interval: 1,            
+                    until: toDateObject(component.getEndDate())
+                }
+            });
+
+        }
+
+
+    }
 
 
     // const calString = cal.toString();
