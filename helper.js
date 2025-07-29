@@ -261,108 +261,158 @@ export class Component{
           return this.startEndDate.match(/\b\d{2}\/\d{2}\/\d{4}\b/g)[1];
       }
 
-      toDateObject(text){
+    static toDateObject(text, language){
+
+          // English date (MM/DD/YYYY)
+          let monthIndex = 0;
+          let dayIndex = 1;
+
+          // Date francaise
+          if(language == "Fr"){
+            // (DD/MM/YYYY)
+            monthIndex = 1;
+            dayIndex = 0;
+
+          }
+
           const startDateComponents = text.split("/");
           const year = Number(startDateComponents[2]);
-          const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
-          const day = Number(startDateComponents[1]);
+          const month = Number(startDateComponents[monthIndex]) - 1; // The date object has month range 0-11 (which i find weird)
+          const day = Number(startDateComponents[dayIndex]);
 
           return new Date(year, month, day);
       }
 
-      // get a Date object of when the first day of this component is
-      getStart(){
-          const startDate = this.toDateObject(this.getStartDate());
+    // get a Date object of when the first day of this component is
+    getStart(){
+        // const startDateComponents = this.getStartDate().split("/");
+        // const year = Number(startDateComponents[2]);
+        // const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+        // const day = Number(startDateComponents[1]);
 
-          const week = Array.from({length: 7}, (_, i) => i);
-          let i = startDate.getDay();
+        // const startDate = new Date(year, month, day);
+        const startDate = Component.toDateObject(this.getStartDate(), this.getLanguage());
 
-          let count = 0;
-          const stopDay = this.getDay();
-          console.log(`Index day is ${i}`);
-          console.log(`Stop day is ${stopDay}`);
-          while(true){
-              if(i == stopDay || count >=7){
-                  break
-              }
+        const week = Array.from({length: 7}, (_, i) => i);
+        let i = startDate.getDay();
 
-              count++;
-              i = (i + 1) % 7
-              
-          }
-          console.log(`count is ${count}`);
-          
+        let count = 0;
+        const stopDay = this.getDay();
+        console.log(`Index day is ${i}`);
+        console.log(`Stop day is ${stopDay}`);
+        while(true){
+            if(i == stopDay){
+                break
+            }
 
-          // console.log(startDate);
-          startDate.setDate(startDate.getDate() + count);
-          
-          const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[0];
-          const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+            count++;
+            i = (i + 1) % 7
+            
+        }
+        console.log(`count is ${count}`);
+        
 
-          let [_, hour, minute, period] = match;
-          hour = parseInt(hour, 10);
-          minute = parseInt(minute, 10);
+        // console.log(startDate);
+        startDate.setDate(startDate.getDate() + count);
+        
+        let _, hour, minute, period;
 
-          if (period === "PM" && hour !== 12) hour += 12;
-          if (period === "AM" && hour === 12) hour = 0;
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g);
+        if(timeStr){
+            const match = timeStr[0].match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
 
-          startDate.setHours(hour, minute, 0, 0);
+            [_, hour, minute, period] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
 
-          console.log(`hour ${hour}`);
-          console.log(`minute ${minute}`);
-          // TODO: Implement a getEnd() method;
-          //       I think it's going to be the same thing as getEnd but just different time
-          // console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
-          
-          return startDate;
-      }
+            if (period === "PM" && hour !== 12) hour += 12;
+            if (period === "AM" && hour === 12) hour = 0;
 
-      // get a Date object of when the component ends (on the first day it started)
-      getEnd(){
-          const startDate = this.toDateObject(this.getStartDate());
+            startDate.setHours(hour, minute, 0, 0);
+        }else{
+            console.log(this.daysNTimes)
+            let matchStr = this.daysNTimes.match(/(\d{2}):(\d{2})/g)[0];
+            let match = /(\d{2}):(\d{2})/.exec(matchStr);
+            console.log(`match: ${match}`);
+            [_, hour, minute] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
 
-          const week = Array.from({length: 7}, (_, i) => i);
-          let i = startDate.getDay();
+            startDate.setHours(hour, minute, 0, 0);
+        }
 
-          let count = 0;
-          const stopDay = this.getDay();
-          console.log(`Index day is ${i}`);
-          console.log(`Stop day is ${stopDay}`);
-          while(true){
-              if(i == stopDay || count >=7){
-                  break
-              }
+        console.log(`hour ${hour}`);
+        console.log(`minute ${minute}`);
+        console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
+        
+        return startDate;
+    }
 
-              count++;
-              i = (i + 1) % 7
-              
-          }
-          console.log(`count is ${count}`);
-          
+    // get a Date object of when the component ends (on the first day it started)
+    getEnd(){
+        // const startDateComponents = this.getStartDate().split("/");
+        // const year = Number(startDateComponents[2]);
+        // const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
+        // const day = Number(startDateComponents[1]);
 
-          // console.log(startDate);
-          startDate.setDate(startDate.getDate() + count);
-          
-          const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[1];
-          const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+        // const startDate = new Date(year, month, day);
+        const startDate = Component.toDateObject(this.getStartDate(), this.getLanguage());
 
-          let [_, hour, minute, period] = match;
-          hour = parseInt(hour, 10);
-          minute = parseInt(minute, 10);
+        const week = Array.from({length: 7}, (_, i) => i);
+        let i = startDate.getDay();
 
-          if (period === "PM" && hour !== 12) hour += 12;
-          if (period === "AM" && hour === 12) hour = 0;
+        let count = 0;
+        const stopDay = this.getDay();
+        console.log(`Index day is ${i}`);
+        console.log(`Stop day is ${stopDay}`);
+        while(true){
+            if(i == stopDay){
+                break
+            }
 
-          startDate.setHours(hour, minute, 0, 0);
+            count++;
+            i = (i + 1) % 7
+            
+        }
+        console.log(`count is ${count}`);
+        
 
-          console.log(`hour ${hour}`);
-          console.log(`minute ${minute}`);
-          // TODO: Implement a getEnd() method;
-          //       I think it's going to be the same thing as getEnd but just different time
-          console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
-          
-          return startDate;
-      }
+        // console.log(startDate);
+        startDate.setDate(startDate.getDate() + count);
+        
+        let _, hour, minute, period;
+
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g);
+        if(timeStr){
+            const match = timeStr[1].match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+
+            [_, hour, minute, period] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
+
+            if (period === "PM" && hour !== 12) hour += 12;
+            if (period === "AM" && hour === 12) hour = 0;
+
+            startDate.setHours(hour, minute, 0, 0);
+        }else{
+            console.log(this.daysNTimes)
+            let matchStr = this.daysNTimes.match(/(\d{2}):(\d{2})/g)[1];
+            let match = /(\d{2}):(\d{2})/.exec(matchStr);
+            console.log(`match: ${match}`);
+            [_, hour, minute] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
+
+            startDate.setHours(hour, minute, 0, 0);
+        }
+
+        console.log(`hour ${hour}`);
+        console.log(`minute ${minute}`);
+        console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
+        
+        return startDate;
+    }
+
 
       // get the day of the week when the component happens
       // like the day of the lecture/lab/tutorial
@@ -375,11 +425,41 @@ export class Component{
               We: 3,
               Th: 4,
               Fr: 5,
-              Sa: 6
+              Sa: 6,
+
+              Dim: 0,
+              Lun: 1,
+              Mar: 2,
+              Mer: 3,
+              Jeu: 4,
+              Ven: 5,
+              Sam: 6
           };
 
-          return weekdayMap[this.daysNTimes.slice(0, 2)];
+          let  result = weekdayMap[this.daysNTimes.slice(0, 2)];
+          if (result){
+            return result
+          }
+          
+          // Francais
+          return weekdayMap[this.daysNTimes.slice(0, 3)];
+
+
       }
+
+    // get the language of the component (either "En" or "Fr")
+    // This depends on the language setting on uoZone
+    getLanguage(){
+        const keywords = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
+        const found = keywords.some(keyword => this.daysNTimes.includes(keyword));
+
+        if(found){
+            return "Fr";
+        }
+
+        return "En"
+    }
 }
 
 

@@ -22,7 +22,7 @@ import {
     parseAllClassNames, 
 
     Class, 
-    // Component
+    Component
 } from './helper.js';
 
 function toDateObject(text){
@@ -205,19 +205,18 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
                 repeating: {
                     freq: 'WEEKLY',         
                     interval: 1,            
-                    until: toDateObject(component.getEndDate())
+                    until: Component.toDateObject(component.getEndDate(), component.getLanguage())
                 }
             });
 
         }
 
-
     }
 
 
-    // const calString = cal.toString();
-    // let calStringLines = calString.split('\n');
-    // console.log(calString);
+    const calString = cal.toString();
+    let calStringLines = calString.split('\n');
+    console.log(calString);
 
     // let timesIndex = 0;
     // for (let index = 0; index < calStringLines.length; index++){
@@ -243,7 +242,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
     // }
     
-    // console.log(calStringLines);
+    console.log(calStringLines);
     console.log('here65736753');
     const blob = new Blob([cal.toString()], { type: 'text/calendar' });
     // const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });

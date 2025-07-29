@@ -46,10 +46,22 @@ class Component{
     }
 
     toDateObject(text){
+        // English date (MM/DD/YYYY)
+        let monthIndex = 0;
+        let dayIndex = 1;
+
+        // Date francaise
+        if(this.getLanguage() == "Fr"){
+        // (DD/MM/YYYY)
+        monthIndex = 1;
+        dayIndex = 0;
+
+        }
+
         const startDateComponents = text.split("/");
         const year = Number(startDateComponents[2]);
-        const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
-        const day = Number(startDateComponents[1]);
+        const month = Number(startDateComponents[monthIndex]) - 1; // The date object has month range 0-11 (which i find weird)
+        const day = Number(startDateComponents[dayIndex]);
 
         return new Date(year, month, day);
     }
@@ -86,22 +98,34 @@ class Component{
         // console.log(startDate);
         startDate.setDate(startDate.getDate() + count);
         
-        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[0];
-        const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+        let _, hour, minute, period;
 
-        let [_, hour, minute, period] = match;
-        hour = parseInt(hour, 10);
-        minute = parseInt(minute, 10);
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g);
+        if(timeStr){
+            const match = timeStr[0].match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
 
-        if (period === "PM" && hour !== 12) hour += 12;
-        if (period === "AM" && hour === 12) hour = 0;
+            [_, hour, minute, period] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
 
-        startDate.setHours(hour, minute, 0, 0);
+            if (period === "PM" && hour !== 12) hour += 12;
+            if (period === "AM" && hour === 12) hour = 0;
+
+            startDate.setHours(hour, minute, 0, 0);
+        }else{
+            console.log(this.daysNTimes)
+            let matchStr = this.daysNTimes.match(/(\d{2}):(\d{2})/g)[0];
+            let match = /(\d{2}):(\d{2})/.exec(matchStr);
+            console.log(`match: ${match}`);
+            [_, hour, minute] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
+
+            startDate.setHours(hour, minute, 0, 0);
+        }
 
         console.log(`hour ${hour}`);
         console.log(`minute ${minute}`);
-        // TODO: Implement a getEnd() method;
-        //       I think it's going to be the same thing as getEnd but just different time
         console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
         
         return startDate;
@@ -115,7 +139,7 @@ class Component{
         // const day = Number(startDateComponents[1]);
 
         // const startDate = new Date(year, month, day);
-        const startDate = this.toDateObject(this.getEndDate());
+        const startDate = this.toDateObject(this.getStartDate());
 
         const week = Array.from({length: 7}, (_, i) => i);
         let i = startDate.getDay();
@@ -139,22 +163,34 @@ class Component{
         // console.log(startDate);
         startDate.setDate(startDate.getDate() + count);
         
-        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g)[1];
-        const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
+        let _, hour, minute, period;
 
-        let [_, hour, minute, period] = match;
-        hour = parseInt(hour, 10);
-        minute = parseInt(minute, 10);
+        const timeStr = this.daysNTimes.match(/\b\d{1,2}:\d{2}(?:AM|PM)\b/g);
+        if(timeStr){
+            const match = timeStr[1].match(/^(\d{1,2}):(\d{2})(AM|PM)$/);
 
-        if (period === "PM" && hour !== 12) hour += 12;
-        if (period === "AM" && hour === 12) hour = 0;
+            [_, hour, minute, period] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
 
-        startDate.setHours(hour, minute, 0, 0);
+            if (period === "PM" && hour !== 12) hour += 12;
+            if (period === "AM" && hour === 12) hour = 0;
+
+            startDate.setHours(hour, minute, 0, 0);
+        }else{
+            console.log(this.daysNTimes)
+            let matchStr = this.daysNTimes.match(/(\d{2}):(\d{2})/g)[1];
+            let match = /(\d{2}):(\d{2})/.exec(matchStr);
+            console.log(`match: ${match}`);
+            [_, hour, minute] = match;
+            hour = parseInt(hour, 10);
+            minute = parseInt(minute, 10);
+
+            startDate.setHours(hour, minute, 0, 0);
+        }
 
         console.log(`hour ${hour}`);
         console.log(`minute ${minute}`);
-        // TODO: Implement a getEnd() method;
-        //       I think it's going to be the same thing as getEnd but just different time
         console.log(startDate.toLocaleString("en-CA", { timeZone: "America/Toronto" }));
         
         return startDate;
@@ -164,17 +200,48 @@ class Component{
     // like the day of the lecture/lab/tutorial
     getDay(){
 
-        const weekdayMap = {
-            Su: 0,
-            Mo: 1,
-            Tu: 2,
-            We: 3,
-            Th: 4,
-            Fr: 5,
-            Sa: 6
-        };
+          const weekdayMap = {
+              Su: 0,
+              Mo: 1,
+              Tu: 2,
+              We: 3,
+              Th: 4,
+              Fr: 5,
+              Sa: 6,
 
-        return weekdayMap[this.daysNTimes.slice(0, 2)];
+              Dim: 0,
+              Lun: 1,
+              Mar: 2,
+              Mer: 3,
+              Jeu: 4,
+              Ven: 5,
+              Sam: 6
+          };
+
+          let  result = weekdayMap[this.daysNTimes.slice(0, 2)];
+          if (result){
+            return result
+          }
+          
+          // Francais
+          return weekdayMap[this.daysNTimes.slice(0, 3)];
+
+
+      
+    }
+
+    // get the language of the component (either "En" or "Fr")
+    // This depends on the language setting on uoZone
+    getLanguage(){
+        const keywords = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
+        const found = keywords.some(keyword => this.daysNTimes.includes(keyword));
+
+        if(found){
+            return "Fr";
+        }
+
+        return "En"
     }
 
 }
@@ -189,7 +256,7 @@ function parseClass(text){
     // filter array, i.e get rid of empty strings and whitespaces/tabs
     lines = lines.filter(str => str.trim() != "");
 
-    console.log(lines);
+    // console.log(lines);
     
     let section = '';
     let component = '';
@@ -283,7 +350,8 @@ function parseClass(text){
     // console.log(instructor);
     // console.log(startEndDate);
     // console.log('\n\n\n');
-    console.log(components);
+    // console.log("here;");
+    // console.log(components);
     return components;
 }
 
@@ -294,7 +362,7 @@ function getAllClassNames(text){
     // filter array, i.e get rid of empty strings and whitespaces/tabs
     lines = lines.filter(str => str.trim() != "");
 
-    console.log(lines);
+    // console.log(lines);
     // return new Set(text.match(/[A-Z]{3}\s\d{4}\s-\s.+/gm));
     const names = [];
     for(const line of lines){
@@ -311,7 +379,7 @@ function getAllClassNames(text){
 
 
 
-var data =
+var dataeng =
  `
 Class Nbr	Section	Component	Days & Times	Room	Instructor	Start/End Date
 
@@ -388,14 +456,66 @@ D (50%) Passing Grade
 	
 `;
 
-let components = parseClass(data);
 
-c = components[components.length - 1];
-console.log(c);
-// console.log(c.getEndDate());
-console.log(c.getStart());
-console.log();
-console.log(c.getEnd());
+// francais
+let datafr = `
+,Nº cours	Section	Composante	Jours et heures	Local	Enseignant	Dates début/fin
+
+2701
+	
+A00
+	
+Magistral
+	
+Lun 13:00 - 14:20
+	
+60 Université (SMD) 503
+	
+À communiquer
+	
+03/09/2025 - 02/12/2025
+
+
+ 
+	 	
+ 
+	
+Mer 11:30 - 12:50
+	
+60 Université (SMD) 503
+	
+À communiquer
+	
+03/09/2025 - 02/12/2025FLS 3500 - TEST CERT. COMP. LANGUE SEC.
+
+		
+	
+Statut	Crédits	Notation	Note	Dates limites
+
+Inscrit
+	
+3.00
+	
+Note de passage D (50%)
+	
+ 
+	
+
+`
+
+let components = parseClass(datafr);
+console.log(components[0]);
+
+// console.log(components[0].getStart());
+console.log(components[0].toDateObject(components[0].getEndDate()));
+console.log(components[0].toDateObject(components[0].getStartDate()));
+
+// c = components[components.length - 1];
+// console.log(c);
+// // console.log(c.getEndDate());
+// console.log(c.getStart());
+// console.log();
+// console.log(c.getEnd());
 
 // const fs = require("fs");
 
