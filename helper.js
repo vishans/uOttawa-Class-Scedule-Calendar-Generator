@@ -505,6 +505,11 @@ export function parseClass(text){
 
             // Instructor
             instructor = lines[++index];
+            // If there are many instructors, there might be more names on the next line
+            while(lines[index].includes(",")){ // This works for now, might need to look into better parsing
+                                              // strat if something similar happens
+                instructor += lines[++index]
+            }
 
             // Start and end date
             startEndDate = lines[++index]
@@ -526,6 +531,11 @@ export function parseClass(text){
 
             // Instructor
             instructor = lines[++index];
+            // If there are many instructors, there might be more names on the next line
+            while(lines[index].includes(",")){ // This works for now, might need to look into better parsing
+                                              // strat if something similar happens
+                instructor += lines[++index]
+            }
 
             // Start and end date
             startEndDate = lines[++index]
