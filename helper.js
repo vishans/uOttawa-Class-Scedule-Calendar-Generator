@@ -513,7 +513,10 @@ export function parseClass(text){
 
         }else if( 
             /[A-Za-z]{2}\s\d{1,2}:\d{2}[AP]M\s-\s\d{1,2}:\d{2}[AP]M/
-            .test(current)){
+            .test(current) ||
+            /^[A-Za-z]{3}\s\d{1,2}:\d{2}\s-\s\d{1,2}:\d{2}$/
+            .test(current)
+        ){
 
             // Then days and times
             daysNTimes = lines[index];
