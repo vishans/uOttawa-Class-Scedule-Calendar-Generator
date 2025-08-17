@@ -36,6 +36,15 @@ function toDateObject(text){
 
 var filename = 'calendar.ics'
 
+let state = {
+    title: null,
+    isListView: null,
+};
+
+function isRightPage(){
+    return state.isListView && (state.title == "My Class Schedule" || state.title == "Votre horaire cours") ;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     // get the current active tab's URL
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -46,8 +55,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       // check if a substring is in the URL
       if (currentUrl.includes("uocampus.uottawa.ca")) {
-        const overlay = document.getElementById('overlay');
-        overlay.style.display = 'none';
+        let response = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: ()=>{
+                const pageTitleHeader = document.querySelector("#pagetitleheader .titletext");
+                const iframe = document.getElementById("ptifrmtgtframe"); // Select the iframe
+
+                let isListView = null;
+                if(iframe){
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                    if (iframeDoc) {
+                        isListView = iframeDoc.querySelector('input[type="radio"]').checked;
+                    }
+                }
+
+                return {title: pageTitleHeader.outerText, isListView}
+
+            }
+        });
+
+        state.title = response[0].result.title;
+        state.isListView = response[0].result.isListView;
+        console.log(state.title);
+
+        if(isRightPage()){
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+        }
       } else {
         console.log("The URL does not contain uottawa's url.");
       }
@@ -65,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         func: getSemeseterInfo 
     });
 
+    if(!isRightPage()) return;
     if(response[0].result === undefined) return;
 
     const infos = response[0].result[1].split('|').slice(0,2);
