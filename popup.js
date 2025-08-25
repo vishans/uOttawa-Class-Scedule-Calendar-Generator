@@ -1,38 +1,11 @@
-console.log("TOP OF POPUP.JS");
 import ical from 'ical-generator';
 import {
-    getCompontType,
-    getSection,
-    getClassNumber,
-    getClasses,
-    parseClassName,
-    applyTimeToDate,
-    getActualStartDate,
-    getActualEndDate,
-    getClassDT,
-    parseScheduleLine,
-    parseDateRange,
-    getClassLocation,
-    parseLocation,
-    getClassInstructor,
-    getClassStartEnd,
-    toFloatingTimeString,
-
     parseClass,
     parseAllClassNames, 
 
     Class, 
     Component
 } from './helper.js';
-
-function toDateObject(text){
-    const startDateComponents = text.split("/");
-    const year = Number(startDateComponents[2]);
-    const month = Number(startDateComponents[0]) - 1; // The date object has month range 0-11 (which i find weird)
-    const day = Number(startDateComponents[1]);
-
-    return new Date(year, month, day);
-}
 
 var filename = 'calendar.ics'
 
@@ -298,59 +271,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // Clean up the object URL
     URL.revokeObjectURL(url);
 });
-
-function isolateComponents(block){
-    const regex = /^\d{4}[\s\S]*?(?=^\d{4}|#)/gm;
-    block += "#"
-    // console.log(block)
-    const match = block.match(regex);
-    const components = [];
-
-    if(match){
-
-        for(let component of match){
-            
-            const classes = getClasses(component);
-            const classesList = [];
-            
-            // console.log(classes);
-            console.log('heree')
-            if (!classes) continue;
-            for(let cls of classes){
-                const obj = {
-                    dayNTime: parseScheduleLine(getClassDT(cls)),
-                    location: parseLocation(getClassLocation(cls)),
-                    instructor: getClassInstructor(cls),
-                    startEndDate: parseDateRange(getClassStartEnd(cls))
-
-                }
-
-                // console.log(obj.startEndDate)
-                console.log('ici')
-                console.log(obj.dayNTime);
-                obj['actualStartDate'] = getActualStartDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
-                obj['actualEndDate'] = getActualEndDate(structuredClone(obj).startEndDate.start, obj.dayNTime);
-                classesList.push(obj);
-            }
-            
-            const obj = {
-                componentType: getCompontType(component),
-                component,
-                section: getSection(component),
-                classNumber: getClassNumber(component),
-                classes: classesList 
-            }
-            components.push(obj);
-            // console.log(obj.classes[0].dateNTime);
-            // console.log(obj.classes[0].startEndDate);
-            // console.log(obj.classes[0].location);
-           
-        }
-    }
-
-    return components;
-
-}
 
 function scrapeDataFromPage() {
     const data = [];
