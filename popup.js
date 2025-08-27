@@ -197,18 +197,38 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     // a class consists of one or more components
     // a component could be a lecture, tutorial, lab...
     for(let cls of classes){
-        
         for(let component of cls.components){
+            let eventName = cls.getSubjectCode() + ' ' + cls.getCourseCode();
+            let section = "";
+            let component_ = "";
+            let fullCourseName = "";
+
             if(component.daysNTimes == "N/A" || component.room == "N/A" ||
                component.daysNTimes == "S/O" || component.room == "S/O"
             ){
                 continue;
             }
 
+            if(includeSectionNo){
+                section = component.section;
+            }
+
+            if(includeComponent){
+                component_ = (includeSectionNo ? "-": "") +component.component;
+            }
+
+            if(includeCourseName){
+                // include all course name
+                fullCourseName = `- ${cls.getCourseName()} `;
+
+            }
+
+            eventName +=  ` ${fullCourseName}(${section}${component_})`;
+
             cal.createEvent({
                 start: component.getStart(),
                 end: component.getEnd(),
-                summary: cls.className + component.component,       
+                summary: eventName, //cls.getCourseName(), //+ component.component,       
                 description: component.instructor, 
                 location:  component.room, 
                 repeating: {
