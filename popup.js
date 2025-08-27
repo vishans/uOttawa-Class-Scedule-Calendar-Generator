@@ -138,46 +138,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const classNames = parseAllClassNames(text);
     let classIndex = 0;
     for(let block of blocks){
-    //     const title = parseClassName(titles[index++]);
-    //     console.log(title, '---------');
-
-    //     const components = isolateComponents(block);
-    //     if(components){
-    //         for(let c of components){
-    //            for(let c_ of c.classes){
-    //             let summary = title.code;
-
-    //             if(includeCourseName)
-    //                 summary += ' - ' + title.name;
-
-    //             if(includeSectionNo)
-    //                 summary += ' - ' + c.section;
-
-    //             if(includeComponent)
-    //                 summary += ' - ' + c.componentType.slice(0,3).toUpperCase();
-
-    //             console.log(c_)
-
-    //             times.push(c_.actualStartDate)
-    //             times.push(c_.actualEndDate)
-    //             times.push(c_.startEndDate.end)
-
-    //             cal.createEvent({
-    //                 start: c_.actualStartDate,
-    //                 end: c_.actualEndDate,
-    //                 summary: summary,       
-    //                 description:`Taught by ${c_.instructor}` , 
-    //                 location: c_.location.building + ' ' + c_.location.room, 
-    //                 repeating: {
-    //                   freq: 'WEEKLY',         
-    //                   interval: 1,            
-    //                   until: c_.startEndDate.end
-    //                 }
-    //               });
-
-    //            }
-    //         }
-    //     }
     console.log('####!!!!')
     // console.log(block);
     const components = parseClass(block);
@@ -218,7 +178,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
             }
 
             if(includeCourseName){
-                // include all course name
+                // include full course name
                 fullCourseName = `- ${cls.getCourseName()} `;
 
             }
@@ -247,34 +207,9 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     let calStringLines = calString.split('\n');
     console.log(calString);
 
-    // let timesIndex = 0;
-    // for (let index = 0; index < calStringLines.length; index++){
-
-    //     const dtStartRegex = /(DTSTART:)(.*)/ ;
-    //     const dtEndRegex= /(DTEND:)(.*)/ ;
-    //     const untilRegex = /(UNTIL=)(\d{8}T\d{6}Z?)/;
-        
-
-    //     let currentLine = calStringLines[index]
-    //     if(dtStartRegex.test(currentLine)){
-    //         calStringLines[index] = currentLine.replace(dtStartRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-    //         timesIndex++;
-    //     }
-    //     else if(dtEndRegex.test(currentLine)){
-    //         calStringLines[index] = currentLine.replace(dtEndRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-    //         timesIndex++;
-    //     }
-    //     else if(untilRegex.test(currentLine)){
-    //         calStringLines[index] = currentLine.replace(untilRegex, `$1${toFloatingTimeString(times[timesIndex])}\r`)
-    //         timesIndex++;
-    //     }
-
-    // }
     
     console.log(calStringLines);
-    console.log('here65736753');
     const blob = new Blob([cal.toString()], { type: 'text/calendar' });
-    // const blob = new Blob([calStringLines.join('\n')], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
 
     // Create an anchor element and trigger a download
