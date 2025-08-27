@@ -372,7 +372,6 @@ export function parseClass(text){
 
 }
 
-// To keep
 export function parseAllClassNames(text){
 
     let lines = text.split(/[\n][\n\r]*/);

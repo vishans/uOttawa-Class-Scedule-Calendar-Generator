@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "DOM Scraper",
+    "name": "uOCal",
     "version": "1.0",
-    "description": "Scrapes data from a webpage and allows the user to download it.",
+    "description": "Scrapes class schedule data from uOZone and converts into an iCal file for download.",
     "permissions": ["activeTab", "scripting", "tabs"],
     "host_permissions": ["*://*/*"],
     "action": {
