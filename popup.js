@@ -120,7 +120,10 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const includeSectionNo = document.getElementById('include-section').checked;
     const includeComponent = document.getElementById('include-component').checked;
 
-    const cal = ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false });
+   const cals = new Map();
+
+    cals.set("default", 
+             ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false }));
 
     // TODO: 
     // Option to add full address of classroom or not
@@ -185,7 +188,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
             eventName +=  ` ${fullCourseName}(${section}${component_})`;
 
-            cal.createEvent({
+            cals.get("default").createEvent({
                 start: component.getStart(),
                 end: component.getEnd(),
                 summary: eventName, //cls.getCourseName(), //+ component.component,       
@@ -203,13 +206,13 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     }
 
 
-    const calString = cal.toString();
+    const calString = cals.get("default").toString();
     let calStringLines = calString.split('\n');
     console.log(calString);
 
     
     console.log(calStringLines);
-    const blob = new Blob([cal.toString()], { type: 'text/calendar' });
+    const blob = new Blob([calString], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
 
     // Create an anchor element and trigger a download
