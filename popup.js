@@ -119,12 +119,12 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const includeCourseName = document.getElementById('include-course').checked;
     const includeSectionNo = document.getElementById('include-section').checked;
     const includeComponent = document.getElementById('include-component').checked;
-    const multipleCals = true;
+    const multipleCals = document.getElementById('multiple-cals').checked;
 
    const cals = new Map();
 
     cals.set("default", 
-             ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false }));
+             ical({ domain: 'uoCal', name: 'default', timezone: false }));
 
     // TODO: 
     // Option to add full address of classroom or not
@@ -195,7 +195,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
             }else{
                 if(!cals.has(component_)){
                     cals.set(component_, 
-                            ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false }));
+                            ical({ domain: 'uoCal', name: component_, timezone: false }));
                 }
 
                 currentCal = cals.get(component_);
