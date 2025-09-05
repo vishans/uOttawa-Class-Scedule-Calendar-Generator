@@ -119,6 +119,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const includeCourseName = document.getElementById('include-course').checked;
     const includeSectionNo = document.getElementById('include-section').checked;
     const includeComponent = document.getElementById('include-component').checked;
+    const multipleCals = true;
 
    const cals = new Map();
 
@@ -188,7 +189,19 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
 
             eventName +=  ` ${fullCourseName}(${section}${component_})`;
 
-            cals.get("default").createEvent({
+            let currentCal;
+            if(!multipleCals){
+                currentCal = cals.get("default")
+            }else{
+                if(!cals.has(component_)){
+                    cals.set(component_, 
+                            ical({ domain: 'uoCal', name: 'Test Calendar', timezone: false }));
+                }
+
+                currentCal = cals.get(component_);
+            }
+
+            currentCal.createEvent({
                 start: component.getStart(),
                 end: component.getEnd(),
                 summary: eventName, //cls.getCourseName(), //+ component.component,       
@@ -206,28 +219,40 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     }
 
 
-    const calString = cals.get("default").toString();
-    let calStringLines = calString.split('\n');
-    console.log(calString);
 
-    
-    console.log(calStringLines);
-    const blob = new Blob([calString], { type: 'text/calendar' });
-    const url = URL.createObjectURL(blob);
+    for(const [key, value] of cals){
+        if(multipleCals && key === "default") continue;
 
-    // Create an anchor element and trigger a download
-    const link = document.createElement('a');
-    link.href = url;
-    
-    const textbox = document.getElementById('file-name');
-    link.download = textbox.value;
+        let calString = value.toString();
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Clean up the object URL
-    URL.revokeObjectURL(url);
+        let calStringLines = calString.split('\n');
+        console.log(calString);
+
+        
+        console.log(calStringLines);
+        const blob = new Blob([calString], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+
+        // Create an anchor element and trigger a download
+        const link = document.createElement('a');
+        link.href = url;
+        
+        const textbox = document.getElementById('file-name');
+        link.download = textbox.value;
+
+        if(multipleCals){
+            console.log(`Adding components ${key} at the end`);
+            link.download = `(${key.slice(1)})` + link.download;
+            console.log(link.download);
+        }
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up the object URL
+        URL.revokeObjectURL(url);
+    }
 });
 
 function scrapeDataFromPage() {
