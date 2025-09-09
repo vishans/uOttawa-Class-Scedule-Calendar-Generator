@@ -650,7 +650,6 @@ let state = {
 
 function isRightPage(){
     return state.isListView && (state.title == "My Class Schedule" || state.title == "Votre horaire cours") ;
-    // return true;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
