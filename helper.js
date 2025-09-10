@@ -12,7 +12,7 @@ export class Class{
     }
 
     getCourseCode(){
-        return this.className.match(/\d{4}/)[0];
+        return this.className.match(/\d{3,4}/)[0];
     }
 
     getCourseName(){
@@ -381,7 +381,7 @@ export function parseAllClassNames(text){
 
     const names = [];
     for(const line of lines){
-        const match = line.match(/[A-Z]{3}\s\d{4}\s-\s.+/gm);
+        const match = line.match(/[A-Z]{3}\s\d{3,4}\s-\s.+/gm);
         if(match){
             names.push(match[0]);
 
