@@ -104,7 +104,6 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
     const text = response[0].result.data.join("") + "#"; // add a # at the end make it easier to grab the last block
 
     let regex = /(Class Nbr|Nº cours)[\s\S]*?(?=Class Nbr|Nº cours|#)/gm;
-    //TODO: French support    
     console.log(text)
 
     const blocks = text.match(regex);
@@ -127,14 +126,7 @@ document.getElementById("scrape-btn").addEventListener("click", async () => {
              ical({ domain: 'uoCal', name: 'default', timezone: false }));
 
     // TODO: 
-    // Option to add full address of classroom or not
-    // Option to show full building name, Montpetit instead of MNT for e.g
-    
-    // Make extension only work on uozone
-    // Make it work only when display option is in list view
-
-    // include French support
-    // include flexible custom mode with $var replacable variable
+    // include flexible custom mode with $var replacable variable (nice to have, not critical)
 
     const times = [];
     const classes = [];
