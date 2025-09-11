@@ -1,3 +1,6 @@
+// This file is not used at all.
+// I was just using it to test some stuff before incorporating in the actual extension.
+
 class Class{
     constructor(className){
         this.className = className;
