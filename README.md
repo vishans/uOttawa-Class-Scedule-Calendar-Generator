@@ -1,8 +1,16 @@
+
 # uOCal 
 uOCal is a web extension that parses you uOZone schedule and generates an iCal (ics) file. 
 
 > [!NOTE]  
 > All processing happens in your browser. Your data never leaves your device.
+
+## Table of Content
+- [Installation](#installation)  
+    - [Firefox](#firefox)
+    - [Chrome](#chromeedge)
+- [Build and Development](#build-and-development)  
+- [Bugs](#bugs)
 
 ## Installation
 
@@ -20,3 +28,29 @@ uOCal is a web extension that parses you uOZone schedule and generates an iCal (
 3. Enable **Developer mode** in the top right corner.
 4. Click **Load unpacked** and select the folder containing this extension.
 
+## Build and Development
+The latest version is already built and included in the `dist/` directory.
+
+If you'd like to build it yourself or contribute to the development and maintenance, check out the section below.
+
+### Prerequisites
+- Node.js
+- npm (which already comes with Node)
+
+### Get Started
+This will install all the necessary dependencies.
+```
+npm install
+```
+
+### To build (bundle)
+```
+npm run build
+```
+
+You are good to go! Everytime you make changes to the code, do not forget to build it.
+
+# Bugs
+If you find a bug or the extension crashes, please raise an issue. Do not forget to include the logs, otherwise I won't be able to reproduce the bug.
+
+If you have the time and skills to fix it yourself, please do! You can then open a PR.
