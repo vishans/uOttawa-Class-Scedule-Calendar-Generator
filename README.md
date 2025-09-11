@@ -5,6 +5,10 @@ uOCal is a web extension that parses you uOZone schedule and generates an iCal (
 > [!NOTE]  
 > All processing happens in your browser. Your data never leaves your device.
 
+<p align="center">
+  <img src="sreenshots/popup.png" alt="Popup Screenshot" width="200"/>
+</p>
+
 ## Table of Content
 - [Installation](#installation)  
     - [Firefox](#firefox)
